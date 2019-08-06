@@ -69,7 +69,7 @@ class RDSDataAPITransaction extends Transaction {
 }
 
 // Call mysql client to setup knex, this set as this function
-export function ClientRDSDataAPI(config) {
+function ClientRDSDataAPI(config) {
   Client.call(this, config);
 }
 
@@ -184,4 +184,4 @@ Object.assign(ClientRDSDataAPI.prototype, {
   }
 });
 
-export default ClientRDSDataAPI;
+module.exports = ClientRDSDataAPI;
