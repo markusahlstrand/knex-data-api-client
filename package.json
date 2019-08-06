@@ -1,0 +1,36 @@
+{
+  "name": "knex-data-api-client",
+  "version": "0.1.0",
+  "description": "Knex RDS Data API Client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alan-cooney/knex-data-api-client.git"
+  },
+  "keywords": [
+    "knex",
+    "data",
+    "api",
+    "rds",
+    "aurora",
+    "serverless"
+  ],
+  "author": "Alan Cooney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alan-cooney/knex-data-api-client/issues"
+  },
+  "homepage": "https://github.com/alan-cooney/knex-data-api-client#readme",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "data-api-client": "github:alan-cooney/data-api-client#master",
+    "sqlstring": "^2.3.1"
+  },
+  "peerDependencies": {
+    "knex": "^0.19.1",
+    "aws-sdk": "^2.480.0"
+  }
+}
