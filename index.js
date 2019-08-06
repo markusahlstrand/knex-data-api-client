@@ -13,8 +13,10 @@ class RDSDataAPITransaction extends Transaction {
       .commitTransaction({
         transactionId: conn.__knexTxId
       })
-      .then(() => {
-        return this._resolver(value);
+      .then(res => {
+        if (res.transactionStatus === "Transaction Commmitted") {
+          return this._resolver(value);
+        }
       });
   }
 
@@ -50,9 +52,10 @@ class RDSDataAPITransaction extends Transaction {
     const self = this;
     const connectionSettings = {
       secretArn: self.client.connectionSettings.secretArn,
-      resourceArn: self.client.connectionSettings.resourceArn
+      resourceArn: self.client.connectionSettings.resourceArn,
+      database: self.client.connectionSettings.dataase
     };
-    return new Bluebird((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       self.client
         .acquireConnection()
         .then(cnx => {
@@ -107,12 +110,17 @@ Object.assign(ClientRDSDataAPI.prototype, {
     return Bluebird.resolve(connection);
   },
 
+  // Destroy - no connection pool to tear down, so just resolve
+  destroy() {
+    return Bluebird.resolve();
+  },
+
   // Runs the query on the specified connection, providing the bindings
   // and any other necessary prep work.
   _query(connection, obj) {
     if (!obj || typeof obj === "string") obj = { sql: obj };
 
-    return new Bluebird(async (resolver, reject) => {
+    return new Promise(async (resolver, reject) => {
       if (!obj.sql) {
         resolver();
         return;
@@ -128,8 +136,7 @@ Object.assign(ClientRDSDataAPI.prototype, {
         var result = await connection.query({
           sql: sqlstring.format(obj.sql, obj.bindings),
           includeResultMetadata,
-          continueAfterTimeout: true,
-          transactionId: obj.__knexTxId
+          continueAfterTimeout: true
         });
       } catch (e) {
         reject(e);
