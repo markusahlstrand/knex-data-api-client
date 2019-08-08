@@ -2,7 +2,6 @@ const Bluebird = require("bluebird");
 const Client = require("knex/lib/dialects/mysql");
 const Transaction = require("knex/lib/transaction");
 const sqlstring = require("sqlstring");
-const AWS = require("aws-sdk");
 const dataApiClient = require("data-api-client");
 
 // Handle transactions
@@ -84,20 +83,12 @@ Object.assign(ClientRDSDataAPI.prototype, {
   driverName: "rds-data",
 
   _driver() {
-    // Set the region if the region is in settings, and it's not set yet
-    if (
-      this.config.connection.region &&
-      AWS.config.region != this.config.connection.region
-    ) {
-      AWS.config.update({
-        region: this.config.connection.region
-      });
-    }
     // Setup dataApiClient
     return dataApiClient({
       secretArn: this.config.connection.secretArn,
       resourceArn: this.config.connection.resourceArn,
-      database: this.config.connection.database
+      database: this.config.connection.database,
+      region: this.config.connection.region
     });
   },
 
