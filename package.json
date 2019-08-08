@@ -1,6 +1,6 @@
 {
   "name": "knex-data-api-client",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Knex RDS Data API Client",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "sqlstring": "^2.3.1"
   },
   "peerDependencies": {
-    "knex": "^0.19.1",
-    "aws-sdk": "^2.480.0"
+    "knex": "^0.x",
+    "aws-sdk": "^2.x"
   }
 }
