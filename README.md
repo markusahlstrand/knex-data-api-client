@@ -13,19 +13,13 @@ Support for transactions, and nestTables is included.
 
 ```javascript
 const knexDataApiClient = require("knex-data-api-client");
-const knexForConfig = require("knex");
-
-/**
- * Knex setup with RDS Data API
- */
-var knex = knexForConfig({
+const knex = require("knex")({
   client: knexDataApiClient,
   connection: {
-    secretArn: process.env.DB_SECRET_ARN,
-    resourceArn: process.env.DB_RESOURCE_ARN,
-    database: process.env.DB_NAME,
-    region: process.env.REGION,
-    dateStrings: ["DATE", "DATETIME"]
+    secretArn: "secret-arn", // Required
+    resourceArn: "db-resource-arn", // Required
+    database: "db-name",
+    region: "eu-west-2"
   }
 });
 ```
