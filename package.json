@@ -1,6 +1,6 @@
 {
   "name": "knex-data-api-client",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Knex RDS Data API Client",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "homepage": "https://github.com/alan-cooney/knex-data-api-client#readme",
   "dependencies": {
     "bluebird": "^3.5.5",
-    "data-api-client": "github:alan-cooney/data-api-client#master",
+    "data-api-client": "github:alan-cooney/data-api-client.git",
     "sqlstring": "^2.3.1"
   }
 }
