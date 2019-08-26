@@ -28,5 +28,8 @@
     "bluebird": "^3.5.5",
     "data-api-client": "github:alan-cooney/data-api-client.git",
     "sqlstring": "^2.3.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.466.0"
   }
 }

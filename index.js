@@ -52,7 +52,7 @@ class RDSDataAPITransaction extends Transaction {
     const connectionSettings = {
       secretArn: self.client.connectionSettings.secretArn,
       resourceArn: self.client.connectionSettings.resourceArn,
-      database: self.client.connectionSettings.dataase
+      database: self.client.connectionSettings.database
     };
     return new Promise((resolve, reject) => {
       self.client
