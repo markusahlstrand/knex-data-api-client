@@ -111,9 +111,9 @@ Object.assign(ClientRDSDataAPI.prototype, {
   _query(connection, obj) {
     if (!obj || typeof obj === "string") obj = { sql: obj };
 
-    return new Promise(async (resolver, reject) => {
+    return new Bluebird((resolve, reject) => {
       if (!obj.sql) {
-        resolver();
+        resolve();
         return;
       }
 
@@ -123,18 +123,18 @@ Object.assign(ClientRDSDataAPI.prototype, {
         includeResultMetadata = true;
       }
 
-      try {
-        var result = await connection.query({
+      connection
+        .query({
           sql: sqlstring.format(obj.sql, obj.bindings),
           includeResultMetadata,
           continueAfterTimeout: true
+        })
+        .then(response => {
+          resolve({ response });
+        })
+        .catch(e => {
+          reject(e);
         });
-      } catch (e) {
-        reject(e);
-      }
-
-      obj.response = result;
-      resolver(obj);
     });
   },
 
