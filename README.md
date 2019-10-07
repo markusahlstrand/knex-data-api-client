@@ -26,7 +26,7 @@ const knex = require("knex")({
 
 ### Nested tables support
 
-Note - this significantly increases the date required back from the RDS data api.
+Note - this significantly increases the data required back from the RDS data api.
 
 ```javascript
 knex()
