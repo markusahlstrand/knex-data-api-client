@@ -130,7 +130,8 @@ Object.assign(ClientRDSDataAPI.prototype, {
           continueAfterTimeout: true
         })
         .then(response => {
-          resolve({ response });
+          obj.response = response;
+          resolve(obj);
         })
         .catch(e => {
           reject(e);
