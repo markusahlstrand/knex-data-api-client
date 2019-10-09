@@ -5,18 +5,21 @@ const sqlstring = require("sqlstring");
 const dataApiClient = require("data-api-client");
 
 // Handle transactions
-class RDSDataAPITransaction extends Transaction {
+class DataAPITransaction extends Transaction {
   commit(conn, value) {
     this._completed = true;
-    return conn
-      .commitTransaction({
-        transactionId: conn.__knexTxId
-      })
-      .then(res => {
-        if (res.transactionStatus === "Transaction Commmitted") {
-          return this._resolver(value);
-        }
-      });
+    return new Bluebird((resolve, reject) => {
+      conn
+        .commitTransaction({
+          transactionId: conn.__knexTxId
+        })
+        .then(r => {
+          resolve(r);
+        })
+        .catch(e => {
+          reject(e);
+        });
+    });
   }
 
   rollback(conn, err) {
@@ -54,18 +57,25 @@ class RDSDataAPITransaction extends Transaction {
       resourceArn: self.client.connectionSettings.resourceArn,
       database: self.client.connectionSettings.database
     };
-    return new Promise((resolve, reject) => {
+    return new Bluebird((resolve, reject) => {
       self.client
         .acquireConnection()
         .then(cnx => {
-          cnx.beginTransaction(connectionSettings).then(result => {
-            cnx.__knexTxId = result.transactionId;
-            cnx.isTransaction = true;
-            resolve(cnx);
-          });
-          resolve(cnx);
+          cnx
+            .beginTransaction(connectionSettings)
+            .then(result => {
+              cnx.__knexTxId = result.transactionId;
+              cnx.isTransaction = true;
+              cnx.rdsTransactionId = result.transactionId;
+              resolve(cnx);
+            })
+            .catch(e => {
+              reject(e);
+            });
         })
-        .catch(reject);
+        .catch(e => {
+          reject(e);
+        });
     });
   }
 }
@@ -93,7 +103,7 @@ Object.assign(ClientRDSDataAPI.prototype, {
   },
 
   transaction() {
-    return new RDSDataAPITransaction(this, ...arguments);
+    return new DataAPITransaction(this, ...arguments);
   },
 
   acquireConnection() {
@@ -117,18 +127,24 @@ Object.assign(ClientRDSDataAPI.prototype, {
         return;
       }
 
+      // Setup query
+      let query = {
+        sql: sqlstring.format(obj.sql, obj.bindings), // Remove bidings as Data API doesn't support them
+        continueAfterTimeout: true
+      };
+
       // If nestTables is set as true, get result metadata (for table names)
-      let includeResultMetadata = false;
       if (obj.options && obj.options.nestTables) {
-        includeResultMetadata = true;
+        query.includeResultMetadata = true;
+      }
+
+      // If in a transaction, add this in
+      if (connection.__knexTxId) {
+        query.transactionId = connection.__knexTxId;
       }
 
       connection
-        .query({
-          sql: sqlstring.format(obj.sql, obj.bindings),
-          includeResultMetadata,
-          continueAfterTimeout: true
-        })
+        .query(query)
         .then(response => {
           obj.response = response;
           resolve(obj);
