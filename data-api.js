@@ -1,5 +1,6 @@
 const sqlstring = require("sqlstring");
 const dataApiClient = require("data-api-client");
+const Bluebird = require("bluebird");
 const DataAPITransaction = require("./data-api-transaction");
 
 // Call mysql client to setup knex, this set as this function
@@ -26,12 +27,12 @@ function dataAPI(ClientRDSDataAPI, Client) {
 
     acquireConnection() {
       const connection = this._driver(this.connectionSettings);
-      return Promise.resolve(connection);
+      return Bluebird.resolve(connection);
     },
 
     // Destroy - no connection pool to tear down, so just resolve
     destroy() {
-      return Promise.resolve();
+      return Bluebird.resolve();
     },
 
     // Runs the query on the specified connection, providing the bindings
@@ -39,7 +40,7 @@ function dataAPI(ClientRDSDataAPI, Client) {
     _query(connection, obj) {
       if (!obj || typeof obj === "string") obj = { sql: obj };
 
-      return new Promise((resolve, reject) => {
+      return new Bluebird((resolve, reject) => {
         if (!obj.sql) {
           resolve();
           return;
