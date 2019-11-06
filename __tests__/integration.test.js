@@ -2,7 +2,7 @@ const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 const knexDataApiClient = require("..");
 const knex = require("knex")({
-  client: knexDataApiClient,
+  client: knexDataApiClient.mysql,
   connection: {
     secretArn: process.env.SECRET_ARN,
     resourceArn: process.env.RESOURCE_ARN,

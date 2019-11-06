@@ -4,7 +4,7 @@
   "description": "Knex RDS Data API Client",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest __tests__/unit.test.js"
   },
   "repository": {
     "type": "git",
@@ -25,14 +25,13 @@
   },
   "homepage": "https://github.com/alan-cooney/knex-data-api-client#readme",
   "dependencies": {
-    "bluebird": "^3.5.5",
-    "data-api-client": "github:alan-cooney/data-api-client.git",
-    "sqlstring": "^2.3.1"
+    "data-api-client": "1.0.0-beta",
+    "sqlstring": "2.3.1"
   },
   "devDependencies": {
-    "aws-sdk": "^2.466.0",
-    "dotenv": "^8.1.0",
-    "jest": "^24.9.0",
-    "knex": "^0.19.5"
+    "aws-sdk": "2.563.0",
+    "dotenv": "8.2.0",
+    "jest": "24.9.0",
+    "knex": "0.20.1"
   }
 }
