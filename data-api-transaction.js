@@ -1,4 +1,5 @@
 const Transaction = require("knex/lib/transaction");
+const Bluebird = require("bluebird");
 
 module.exports = class DataAPITransaction extends Transaction {
   commit(conn, value) {
