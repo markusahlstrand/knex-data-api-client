@@ -1,4 +1,4 @@
-const sqlstring = require("sqlstring");
+const sqlstring = require("./sqlstring");
 const dataApiClient = require("data-api-client");
 const Bluebird = require("bluebird");
 const DataAPITransaction = require("./data-api-transaction");
