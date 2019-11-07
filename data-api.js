@@ -4,7 +4,7 @@ const Bluebird = require("bluebird");
 const DataAPITransaction = require("./data-api-transaction");
 
 // Call mysql client to setup knex, this set as this function
-function dataAPI(ClientRDSDataAPI, Client) {
+function dataAPI(ClientRDSDataAPI, Client, dialect) {
   Object.setPrototypeOf(ClientRDSDataAPI.prototype, Client.prototype);
 
   // Add/change prototype functions and properties
@@ -48,7 +48,7 @@ function dataAPI(ClientRDSDataAPI, Client) {
 
         // Setup query
         let query = {
-          sql: sqlstring.format(obj.sql, obj.bindings), // Remove bidings as Data API doesn't support them
+          sql: sqlstring.format(obj.sql, obj.bindings, dialect), // Remove bidings as Data API doesn't support them
           continueAfterTimeout: true
         };
 

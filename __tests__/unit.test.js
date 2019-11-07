@@ -1,6 +1,7 @@
 const knexFactory = require("knex");
 const knexDataApiClient = require("..");
 const sqlstring = require("../sqlstring");
+const constants = require("../constants");
 
 test("Mysql query", async () => {
   const knex = knexFactory({
@@ -60,10 +61,22 @@ test("Postgres params", async () => {
   expect(query).toBe('select * from "test" where "foo" = \'bar\'');
 });
 
-test("sqlstring", () => {
-  const query = sqlstring.format('select * from "test" where "foo" = $1', [
-    "bar"
-  ]);
+test("sqlstring.format with postgres", () => {
+  const query = sqlstring.format(
+    'select * from "test" where "foo" = $1',
+    ["bar"],
+    constants.dialects.postgres
+  );
 
   expect(query).toBe('select * from "test" where "foo" = \'bar\'');
+});
+
+test("sqlstring.format with mysql", () => {
+  const query = sqlstring.format(
+    'select * from ? where "foo" = ?',
+    ["test", "bar"],
+    constants.dialects.mysql
+  );
+
+  expect(query).toBe("select * from 'test' where \"foo\" = 'bar'");
 });
