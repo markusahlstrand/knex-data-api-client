@@ -65,7 +65,8 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
         connection
           .query(query)
           .then(response => {
-            obj.response = response;
+            response.rows = response.records;
+            obj.response = obj.output ? obj.output(response) : response;
             resolve(obj);
           })
           .catch(e => {
@@ -110,7 +111,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       }
 
       // Format delete
-      if (obj.method === "del") {
+      if (obj.method === "del" || obj.method === "update") {
         obj.response = obj.response.numberOfRecordsUpdated;
       }
 

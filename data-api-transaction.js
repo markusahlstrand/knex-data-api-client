@@ -47,6 +47,8 @@ module.exports = class DataAPITransaction extends Transaction {
   }
 
   async acquireConnection() {
+    const self = this;
+
     const connectionSettings = {
       secretArn: self.client.connectionSettings.secretArn,
       resourceArn: self.client.connectionSettings.resourceArn,
