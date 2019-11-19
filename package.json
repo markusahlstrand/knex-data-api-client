@@ -27,13 +27,13 @@
   "homepage": "https://github.com/alan-cooney/knex-data-api-client#readme",
   "dependencies": {
     "bluebird": "3.7.1",
-    "data-api-client": "git+https://github.com/alan-cooney/data-api-client.git",
+    "data-api-client": "1.0.0",
     "sqlstring": "2.3.1"
   },
   "devDependencies": {
-    "aws-sdk": "2.563.0",
+    "aws-sdk": "2.575.0",
     "dotenv": "8.2.0",
     "jest": "24.9.0",
-    "knex": "0.20.1"
+    "knex": "0.20.2"
   }
 }
