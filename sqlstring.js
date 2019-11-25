@@ -9,6 +9,8 @@ function format(sql, values, dialect) {
 
       if (value instanceof Date) {
         return `'${value.toISOString()}'`;
+      } else if (value === null) {
+        return "NULL";
       }
 
       return `'${value}'`;

@@ -80,3 +80,13 @@ test("sqlstring.format with mysql", () => {
 
   expect(query).toBe("select * from 'test' where \"foo\" = 'bar'");
 });
+
+test("insert null values with postgres", () => {
+  const query = sqlstring.format(
+    "INSERT INTO table(number1,number2) VALUES (1,$1);",
+    [null],
+    constants.dialects.postgres
+  );
+
+  expect(query).toBe("INSERT INTO table(number1,number2) VALUES (1,NULL);");
+});
