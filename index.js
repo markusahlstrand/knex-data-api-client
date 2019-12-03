@@ -1,7 +1,7 @@
-const postgres = require("./postgres");
-const mysql = require("./mysql");
+const postgres = require('./src/postgres');
+const mysql = require('./src/mysql');
 
 module.exports = {
   postgres,
-  mysql
+  mysql,
 };

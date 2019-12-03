@@ -4,6 +4,7 @@
   "description": "Knex RDS Data API Client",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src",
     "test": "jest __tests__/unit.test.js",
     "integration-test": "jest __tests__/integration.test.js"
   },
@@ -26,14 +27,19 @@
   },
   "homepage": "https://github.com/alan-cooney/knex-data-api-client#readme",
   "dependencies": {
-    "bluebird": "3.7.1",
+    "aws-sdk": "2.582.0",
+    "bluebird": "3.7.2",
     "data-api-client": "1.0.0",
-    "sqlstring": "2.3.1"
+    "knex": "0.20.3"
   },
   "devDependencies": {
-    "aws-sdk": "2.575.0",
     "dotenv": "8.2.0",
+    "eslint": "6.7.2",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-prettier": "6.7.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-prettier": "3.1.1",
     "jest": "24.9.0",
-    "knex": "0.20.2"
+    "prettier": "1.19.1"
   }
 }
