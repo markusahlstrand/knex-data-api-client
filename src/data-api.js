@@ -7,6 +7,7 @@ const dataApiClient = require('data-api-client');
 const Bluebird = require('bluebird');
 
 const DataAPITransaction = require('./data-api-transaction');
+const sqlstring = require('./sqlstring');
 
 // Call mysql client to setup knex, this set as this function
 function dataAPI(ClientRDSDataAPI, Client) {
@@ -45,6 +46,11 @@ function dataAPI(ClientRDSDataAPI, Client) {
           resolve();
           return;
         }
+
+        const query = {
+          sql: sqlstring.format(obj.sql, obj.bindings, dialect), // Remove bidings as Data API doesn't support them
+          continueAfterTimeout: true,
+        };
 
         // If nestTables is set as true, get result metadata (for table names)
         if (obj.options && obj.options.nestTables) {
