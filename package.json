@@ -1,7 +1,7 @@
 {
-  "name": "knex-data-api-client",
-  "version": "1.0.0",
-  "description": "Knex RDS Data API Client",
+  "name": "knex-aurora-data-api-client",
+  "version": "1.0.1",
+  "description": "Knex Aurora Data API Client",
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
@@ -18,27 +18,29 @@
     "api",
     "rds",
     "aurora",
-    "serverless"
+    "serverless",
+    "mysql",
+    "postgres"
   ],
-  "author": "Alan Cooney",
+  "author": "Markus Ahlstrand",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alan-cooney/knex-data-api-client/issues"
+    "url": "https://github.com/markusahlstrand/knex-aurora-data-api-client/issues"
   },
-  "homepage": "https://github.com/alan-cooney/knex-data-api-client#readme",
+  "homepage": "https://github.com/alan-cooney/knex-aurora-data-api-client#readme",
   "dependencies": {
-    "aws-sdk": "2.582.0",
+    "aws-sdk": "2.590.0",
     "bluebird": "3.7.2",
-    "data-api-client": "1.0.0",
-    "knex": "0.20.3"
+    "data-api-client": "1.0.1",
+    "knex": "0.20.4"
   },
   "devDependencies": {
     "dotenv": "8.2.0",
     "eslint": "6.7.2",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-config-prettier": "6.7.0",
-    "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-prettier": "3.1.1",
+    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-prettier": "3.1.2",
     "jest": "24.9.0",
     "prettier": "1.19.1"
   }
