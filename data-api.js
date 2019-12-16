@@ -11,7 +11,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
   Object.assign(ClientRDSDataAPI.prototype, {
     driverName: "rds-data",
 
-    _driver() {          
+    _driver() {
       // Setup dataApiClient
       return dataApiClient(this.config.connection);
     },
