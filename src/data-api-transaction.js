@@ -1,18 +1,21 @@
-const Transaction = require("knex/lib/transaction");
-const Bluebird = require("bluebird");
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+
+const Transaction = require('knex/lib/transaction');
+const Bluebird = require('bluebird');
 
 module.exports = class DataAPITransaction extends Transaction {
-  commit(conn, value) {
+  commit(conn) {
     this._completed = true;
     return new Bluebird((resolve, reject) => {
       conn
         .commitTransaction({
-          transactionId: conn.__knexTxId
+          transactionId: conn.__knexTxId,
         })
-        .then(r => {
+        .then((r) => {
           resolve(r);
         })
-        .catch(e => {
+        .catch((e) => {
           reject(e);
         });
     });
@@ -24,10 +27,10 @@ module.exports = class DataAPITransaction extends Transaction {
 
     return conn
       .rollbackTransaction({
-        transactionId: conn.__knexTxId
+        transactionId: conn.__knexTxId,
       })
-      .then(status => {
-        if (typeof err === "undefined") {
+      .then((status) => {
+        if (typeof err === 'undefined') {
           if (self.doNotRejectOnRollback) {
             self._resolver();
             return;
@@ -37,7 +40,7 @@ module.exports = class DataAPITransaction extends Transaction {
           return;
         }
 
-        if (status.transactionStatus === "Rollback Complete") {
+        if (status.transactionStatus === 'Rollback Complete') {
           self._rejecter(err);
           return;
         }
@@ -52,25 +55,25 @@ module.exports = class DataAPITransaction extends Transaction {
     const connectionSettings = {
       secretArn: self.client.connectionSettings.secretArn,
       resourceArn: self.client.connectionSettings.resourceArn,
-      database: self.client.connectionSettings.database
+      database: self.client.connectionSettings.database,
     };
     return new Bluebird((resolve, reject) => {
       self.client
         .acquireConnection()
-        .then(cnx => {
+        .then((cnx) => {
           cnx
             .beginTransaction(connectionSettings)
-            .then(result => {
+            .then((result) => {
               cnx.__knexTxId = result.transactionId;
               cnx.isTransaction = true;
               cnx.rdsTransactionId = result.transactionId;
               resolve(cnx);
             })
-            .catch(e => {
+            .catch((e) => {
               reject(e);
             });
         })
-        .catch(e => {
+        .catch((e) => {
           reject(e);
         });
     });
