@@ -17,8 +17,8 @@
     "api",
     "rds",
     "aurora",
-    "serverless"
-    "mysql"
+    "serverless",
+    "mysql",
     "postgres"
   ],
   "author": "Markus Ahlstrand",
