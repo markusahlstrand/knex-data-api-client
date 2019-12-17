@@ -38,7 +38,7 @@ function dataAPI(ClientRDSDataAPI, Client) {
 
     // Runs the query on the specified connection, providing the bindings
     // and any other necessary prep work.
-    _query(connection, obj) {
+    _query(connection, obj, dialect) {
       if (!obj || typeof obj === 'string') obj = { sql: obj };
 
       return new Bluebird((resolve, reject) => {
