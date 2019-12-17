@@ -10,7 +10,7 @@ const DataAPITransaction = require('./data-api-transaction');
 const sqlstring = require('./sqlstring');
 
 // Call mysql client to setup knex, this set as this function
-function dataAPI(ClientRDSDataAPI, Client) {
+function dataAPI(ClientRDSDataAPI, Client, dialect) {
   Object.setPrototypeOf(ClientRDSDataAPI.prototype, Client.prototype);
 
   // Add/change prototype functions and properties
@@ -38,7 +38,7 @@ function dataAPI(ClientRDSDataAPI, Client) {
 
     // Runs the query on the specified connection, providing the bindings
     // and any other necessary prep work.
-    _query(connection, obj, dialect) {
+    _query(connection, obj) {
       if (!obj || typeof obj === 'string') obj = { sql: obj };
 
       return new Bluebird((resolve, reject) => {
