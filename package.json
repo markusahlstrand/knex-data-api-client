@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alan-cooney/knex-data-api-client.git"
+    "url": "git+https://github.com/markusahlstrand/knex-data-api-client.git"
   },
   "keywords": [
     "knex",
@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/markusahlstrand/knex-aurora-data-api-client/issues"
   },
-  "homepage": "https://github.com/alan-cooney/knex-aurora-data-api-client#readme",
+  "homepage": "https://github.com/markusahlstrand/knex-data-api-client#readme",
   "dependencies": {
     "aws-sdk": "2.591.0",
     "bluebird": "3.7.2",
