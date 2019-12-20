@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
-    "test": "jest __tests__/unit.test.js",
+    "test": "mocha test/**/*.test.js",
     "integration-test": "jest __tests__/integration.test.js"
   },
   "repository": {
@@ -29,19 +29,21 @@
   },
   "homepage": "https://github.com/markusahlstrand/knex-data-api-client#readme",
   "dependencies": {
-    "aws-sdk": "2.591.0",
+    "aws-sdk": "2.593.0",
     "bluebird": "3.7.2",
     "data-api-client": "1.0.1",
     "knex": "0.20.4"
   },
   "devDependencies": {
+    "chai": "4.2.0",
     "dotenv": "8.2.0",
     "eslint": "6.7.2",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-config-prettier": "6.7.0",
     "eslint-plugin-import": "2.19.1",
     "eslint-plugin-prettier": "3.1.2",
-    "jest": "24.9.0",
+    "mocha": "6.2.2",
+    "pg": "7.15.1",
     "prettier": "1.19.1"
   }
 }
