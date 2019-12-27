@@ -4,7 +4,6 @@
 /* eslint-disable no-undef */
 
 const dataApiClient = require('data-api-client');
-const Bluebird = require('bluebird');
 
 const DataAPITransaction = require('./data-api-transaction');
 const sqlstring = require('./sqlstring');
