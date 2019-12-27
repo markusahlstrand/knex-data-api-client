@@ -24,73 +24,75 @@ describe('mysql', () => {
       .toString();
     expect(query).to.equal('select * from `test`');
   });
+
+  it('should replace the bindings', () => {
+    const query = sqlstring.format(
+      'select * from ? where "foo" = ?',
+      ['test', 'bar'],
+      constants.dialects.mysql,
+    );
+
+    expect(query).to.equal("select * from 'test' where \"foo\" = 'bar'");
+  });
 });
 
-// test('Postgres query', async () => {
-//   const knex = knexFactory({
-//     client: knexDataApiClient.postgres,
-//     connection: {
-//       secretArn: '',
-//       resourceArn: '',
-//       database: '',
-//       region: '',
-//       dialect: 'postgres',
-//     },
-//   });
+describe('Postgres', () => {
+  it('should return a simple query', async () => {
+    const knex = knexFactory({
+      client: knexDataApiClient.postgres,
+      connection: {
+        secretArn: '',
+        resourceArn: '',
+        database: '',
+        region: '',
+        dialect: 'postgres',
+      },
+    });
 
-//   const query = knex
-//     .select('*')
-//     .from('test')
-//     .toString();
-//   expect(query).toBe('select * from "test"');
-// });
+    const query = knex
+      .select('*')
+      .from('test')
+      .toString();
+    expect(query).to.equal('select * from "test"');
+  });
 
-// test('Postgres params', async () => {
-//   const knex = knexFactory({
-//     client: knexDataApiClient.postgres,
-//     connection: {
-//       secretArn: '',
-//       resourceArn: '',
-//       database: '',
-//       region: '',
-//       dialect: 'postgres',
-//     },
-//   });
+  it('should return a query with params', async () => {
+    const knex = knexFactory({
+      client: knexDataApiClient.postgres,
+      connection: {
+        secretArn: '',
+        resourceArn: '',
+        database: '',
+        region: '',
+        dialect: 'postgres',
+      },
+    });
 
-//   const query = knex
-//     .select('*')
-//     .from('test')
-//     .where({ foo: 'bar' })
-//     .toString();
-//   expect(query).toBe('select * from "test" where "foo" = \'bar\'');
-// });
+    const query = knex
+      .select('*')
+      .from('test')
+      .where({ foo: 'bar' })
+      .toString();
+    expect(query).to.equal('select * from "test" where "foo" = \'bar\'');
+  });
 
-// test('sqlstring.format with postgres', () => {
-//   const query = sqlstring.format(
-//     'select * from "test" where "foo" = $1',
-//     ['bar'],
-//     constants.dialects.postgres,
-//   );
+  it('should replace the bindings', () => {
+    const query = sqlstring.format(
+      'select * from "test" where "foo" = $1',
+      ['bar'],
+      constants.dialects.postgres,
+    );
 
-//   expect(query).toBe('select * from "test" where "foo" = \'bar\'');
-// });
+    expect(query).to.equal('select * from "test" where "foo" = \'bar\'');
+  });
 
-// test('sqlstring.format with mysql', () => {
-//   const query = sqlstring.format(
-//     'select * from ? where "foo" = ?',
-//     ['test', 'bar'],
-//     constants.dialects.mysql,
-//   );
+  it('should insert null values correctly', () => {
+    const query = sqlstring.format(
+      'INSERT INTO table(number1,number2) VALUES (1,$1);',
+      [null],
+      constants.dialects.postgres,
+    );
 
-//   expect(query).toBe("select * from 'test' where \"foo\" = 'bar'");
-// });
-
-// test('insert null values with postgres', () => {
-//   const query = sqlstring.format(
-//     'INSERT INTO table(number1,number2) VALUES (1,$1);',
-//     [null],
-//     constants.dialects.postgres,
-//   );
-
-//   expect(query).toBe('INSERT INTO table(number1,number2) VALUES (1,NULL);');
-// });
+    expect(query).to.equal('INSERT INTO table(number1,number2) VALUES (1,NULL);');
+  });
+});
