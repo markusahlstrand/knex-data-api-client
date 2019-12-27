@@ -1,12 +1,11 @@
 {
   "name": "knex-aurora-data-api-client",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Knex Aurora Data API Client",
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
-    "test": "mocha test/**/*.test.js",
-    "integration-test": "jest __tests__/integration.test.js"
+    "test": "mocha test/**/*.test.js --timeout 10000"
   },
   "repository": {
     "type": "git",
@@ -32,7 +31,8 @@
     "aws-sdk": "2.593.0",
     "bluebird": "3.7.2",
     "data-api-client": "1.0.1",
-    "knex": "0.20.4"
+    "knex": "0.20.4",
+    "mysql": "^2.17.1"
   },
   "devDependencies": {
     "chai": "4.2.0",

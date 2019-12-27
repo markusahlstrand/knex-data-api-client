@@ -1,0 +1,263 @@
+{
+  "version": "1.10.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "KnexIntegrationTestStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/eu-west-1",
+      "properties": {
+        "templateFile": "KnexIntegrationTestStack.template.json"
+      },
+      "metadata": {
+        "/KnexIntegrationTestStack/TestVpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestVpcE77CE678",
+            "trace": [
+              "new Vpc (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:262:25)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:15:17)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestVpctestauroraisolatedSubnet1SubnetD1B41E1E",
+            "trace": [
+              "new Subnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:548:24)",
+              "new PrivateSubnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:669:9)",
+              "/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:487:44",
+              "Array.forEach (<anonymous>)",
+              "Vpc.createSubnetResources (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:461:32)",
+              "Vpc.createSubnets (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:457:18)",
+              "new Vpc (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:282:14)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:15:17)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestVpctestauroraisolatedSubnet1RouteTable690C95C3",
+            "trace": [
+              "new Subnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:563:23)",
+              "new PrivateSubnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:669:9)",
+              "/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:487:44",
+              "Array.forEach (<anonymous>)",
+              "Vpc.createSubnetResources (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:461:32)",
+              "Vpc.createSubnets (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:457:18)",
+              "new Vpc (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:282:14)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:15:17)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestVpctestauroraisolatedSubnet1RouteTableAssociationD3E458E8",
+            "trace": [
+              "new Subnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:568:9)",
+              "new PrivateSubnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:669:9)",
+              "/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:487:44",
+              "Array.forEach (<anonymous>)",
+              "Vpc.createSubnetResources (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:461:32)",
+              "Vpc.createSubnets (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:457:18)",
+              "new Vpc (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:282:14)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:15:17)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestVpctestauroraisolatedSubnet2Subnet1B37CA4E",
+            "trace": [
+              "new Subnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:548:24)",
+              "new PrivateSubnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:669:9)",
+              "/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:487:44",
+              "Array.forEach (<anonymous>)",
+              "Vpc.createSubnetResources (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:461:32)",
+              "Vpc.createSubnets (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:457:18)",
+              "new Vpc (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:282:14)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:15:17)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestVpctestauroraisolatedSubnet2RouteTable55902B1F",
+            "trace": [
+              "new Subnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:563:23)",
+              "new PrivateSubnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:669:9)",
+              "/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:487:44",
+              "Array.forEach (<anonymous>)",
+              "Vpc.createSubnetResources (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:461:32)",
+              "Vpc.createSubnets (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:457:18)",
+              "new Vpc (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:282:14)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:15:17)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestVpctestauroraisolatedSubnet2RouteTableAssociation159D8EC2",
+            "trace": [
+              "new Subnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:568:9)",
+              "new PrivateSubnet (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:669:9)",
+              "/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:487:44",
+              "Array.forEach (<anonymous>)",
+              "Vpc.createSubnetResources (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:461:32)",
+              "Vpc.createSubnets (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:457:18)",
+              "new Vpc (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-ec2/lib/vpc.js:282:14)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:15:17)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/TestAuroraSubnetGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestAuroraSubnetGroup",
+            "trace": [
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:23:27)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/PostgresTestMasterUserSecret/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTestMasterUserSecretF806DC89",
+            "trace": [
+              "new Secret (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-secretsmanager/lib/secret.js:54:26)",
+              "new DatabaseSecret (/Users/markus/Projects/knex-data-api-client/test/integration/setup/node_modules/@aws-cdk/aws-rds/lib/database-secret.js:11:9)",
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:29:20)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/PostgresTestAuroraServerless": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PostgresTestAuroraServerless",
+            "trace": [
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:34:22)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ],
+        "/KnexIntegrationTestStack/MysqlTestAuroraServerless": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MysqlTestAuroraServerless",
+            "trace": [
+              "new RdsStack (/Users/markus/Projects/knex-data-api-client/test/integration/setup/lib/rds-stack.js:53:19)",
+              "Object.<anonymous> (/Users/markus/Projects/knex-data-api-client/test/integration/setup/bin/infrastructure.js:13:1)",
+              "Module._compile (internal/modules/cjs/loader.js:1128:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:1167:10)",
+              "Module.load (internal/modules/cjs/loader.js:983:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:891:14)",
+              "Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+              "internal/main/run_main_module.js:17:47"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "runtime": {
+    "libraries": {
+      "@aws-cdk/core": "1.15.0",
+      "@aws-cdk/cx-api": "1.15.0",
+      "@aws-cdk/aws-rds": "1.15.0",
+      "@aws-cdk/aws-ec2": "1.15.0",
+      "@aws-cdk/aws-iam": "1.15.0",
+      "@aws-cdk/region-info": "1.15.0",
+      "@aws-cdk/aws-ssm": "1.15.0",
+      "@aws-cdk/aws-cloudwatch": "1.15.0",
+      "@aws-cdk/aws-secretsmanager": "1.15.0",
+      "@aws-cdk/aws-kms": "1.15.0",
+      "@aws-cdk/aws-lambda": "1.15.0",
+      "@aws-cdk/aws-sqs": "1.15.0",
+      "@aws-cdk/aws-s3-assets": "1.15.0",
+      "@aws-cdk/assets": "1.15.0",
+      "@aws-cdk/aws-s3": "1.15.0",
+      "@aws-cdk/aws-events": "1.15.0",
+      "@aws-cdk/aws-sam": "1.15.0",
+      "jsii-runtime": "node.js/v13.3.0"
+    }
+  }
+}

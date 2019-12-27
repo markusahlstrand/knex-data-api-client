@@ -1,0 +1,95 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": [
+      {
+        "id": "Tree",
+        "path": "Tree"
+      },
+      {
+        "id": "KnexIntegrationTestStack",
+        "path": "KnexIntegrationTestStack",
+        "children": [
+          {
+            "id": "TestVpc",
+            "path": "KnexIntegrationTestStack/TestVpc",
+            "children": [
+              {
+                "id": "Resource",
+                "path": "KnexIntegrationTestStack/TestVpc/Resource"
+              },
+              {
+                "id": "test_aurora_isolated_Subnet1",
+                "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1",
+                "children": [
+                  {
+                    "id": "Subnet",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1/Subnet"
+                  },
+                  {
+                    "id": "Acl",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1/Acl"
+                  },
+                  {
+                    "id": "RouteTable",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1/RouteTable"
+                  },
+                  {
+                    "id": "RouteTableAssociation",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet1/RouteTableAssociation"
+                  }
+                ]
+              },
+              {
+                "id": "test_aurora_isolated_Subnet2",
+                "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2",
+                "children": [
+                  {
+                    "id": "Subnet",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2/Subnet"
+                  },
+                  {
+                    "id": "Acl",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2/Acl"
+                  },
+                  {
+                    "id": "RouteTable",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2/RouteTable"
+                  },
+                  {
+                    "id": "RouteTableAssociation",
+                    "path": "KnexIntegrationTestStack/TestVpc/test_aurora_isolated_Subnet2/RouteTableAssociation"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "TestAuroraSubnetGroup",
+            "path": "KnexIntegrationTestStack/TestAuroraSubnetGroup"
+          },
+          {
+            "id": "PostgresTestMasterUserSecret",
+            "path": "KnexIntegrationTestStack/PostgresTestMasterUserSecret",
+            "children": [
+              {
+                "id": "Resource",
+                "path": "KnexIntegrationTestStack/PostgresTestMasterUserSecret/Resource"
+              }
+            ]
+          },
+          {
+            "id": "PostgresTestAuroraServerless",
+            "path": "KnexIntegrationTestStack/PostgresTestAuroraServerless"
+          },
+          {
+            "id": "MysqlTestAuroraServerless",
+            "path": "KnexIntegrationTestStack/MysqlTestAuroraServerless"
+          }
+        ]
+      }
+    ]
+  }
+}
