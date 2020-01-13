@@ -4,13 +4,16 @@
 /* eslint-disable no-undef */
 
 const dataApiClient = require('data-api-client');
+const util = require('util');
+// const inherits = require('inherits');
 
 const DataAPITransaction = require('./data-api-transaction');
 const sqlstring = require('./sqlstring');
 
 // Call mysql client to setup knex, this set as this function
 function dataAPI(ClientRDSDataAPI, Client, dialect) {
-  Object.setPrototypeOf(ClientRDSDataAPI.prototype, Client.prototype);
+  // Object.setPrototypeOf(ClientRDSDataAPI.prototype, Client.prototype);
+  util.inherits(ClientRDSDataAPI, Client);
 
   // Add/change prototype functions and properties
   Object.assign(ClientRDSDataAPI.prototype, {
