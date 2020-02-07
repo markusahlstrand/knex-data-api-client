@@ -51,6 +51,24 @@ describe('postgres', () => {
       table.string('value');
     });
 
+    const actual = await postgres
+      .table(tableName)
+      .insert({ value: 'test' })
+      .returning('*');
+
+    expect(actual.length).to.equal(1);
+    expect(actual[0].id).to.exist;
+    expect(actual[0].value).to.equal('test');
+  });
+
+  it('should insert a row and fetch the result', async () => {
+    const tableName = 'test-' + counter++;
+
+    await postgres.schema.createTable(tableName, (table) => {
+      table.increments();
+      table.string('value');
+    });
+
     await postgres.table(tableName).insert({ value: 'test' });
 
     const rows = await postgres.select().from(tableName);

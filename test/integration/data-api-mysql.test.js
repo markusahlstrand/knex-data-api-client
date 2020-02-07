@@ -53,6 +53,24 @@ describe('data-api-mysql', () => {
       table.string('value');
     });
 
+    const actual = await mysql
+      .table(tableName)
+      .insert({ value: 'test' })
+      .returning('*');
+
+    // This works differently in mysql compared to postgres. Mysql only returns the id
+    expect(actual.length).to.equal(1);
+    expect(actual[0]).to.equal(1);
+  });
+
+  it('should insert a row and fetch the result', async () => {
+    const tableName = 'test-' + counter++;
+
+    await mysql.schema.createTable(tableName, (table) => {
+      table.increments();
+      table.string('value');
+    });
+
     await mysql.table(tableName).insert({ value: 'test' });
 
     const rows = await mysql.select().from(tableName);

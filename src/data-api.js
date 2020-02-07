@@ -83,7 +83,11 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
     processResponse(obj) {
       // Format insert
       if (obj.method === 'insert') {
-        obj.response = [obj.response.insertId];
+        if (dialect === 'mysql') {
+          obj.response = [obj.response.insertId];
+        } else {
+          obj.response = obj.response.records;
+        }
       }
 
       // Format select
