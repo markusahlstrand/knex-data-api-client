@@ -81,13 +81,6 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
     // Process the response as returned from the query, and format like the standard mysql engine
     processResponse(obj) {
-      console.log('post process: ' + JSON.stringify(obj));
-
-      // Format error
-      if (obj.error) {
-        obj.response = obj.error;
-      }
-
       // Format insert
       if (obj.method === 'insert') {
         if (dialect === 'mysql') {
