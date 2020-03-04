@@ -5,7 +5,7 @@
 
 const dataApiClient = require('data-api-client');
 const util = require('util');
-// const inherits = require('inherits');
+const Bluebird = require('bluebird');
 
 const DataAPITransaction = require('./data-api-transaction');
 const sqlstring = require('./sqlstring');
@@ -45,7 +45,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
     _query(connection, obj) {
       if (!obj || typeof obj === 'string') obj = { sql: obj };
 
-      return new Promise((resolve, reject) => {
+      return new Bluebird((resolve, reject) => {
         if (!obj.sql) {
           resolve();
           return;
@@ -73,8 +73,8 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
             obj.response = obj.output ? obj.output(response) : response;
             resolve(obj);
           })
-          .catch((e) => {
-            reject(e);
+          .catch((err) => {
+            reject(err);
           });
       });
     },
