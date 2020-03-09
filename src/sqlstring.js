@@ -2,10 +2,10 @@
 const knexClientFactory = require('knex');
 
 function replaceBindings(sql) {
-  return Array.from(sql.matchAll(/([^'"]*)(['"]|$)/g)).reduce(
+  return Array.from(sql.matchAll(/([^\'\"]*)([\'\"]|$)/g)).reduce(
     ({ char, str }, token) => {
       if (char) {
-        char = char !== token[2] ? char : null;
+        char = char != token[2] ? char : null;
       } else {
         char = `"'`.includes(token[2]) && token[2];
         token[1] = token[1].replace(/\$(\d+)/g, '?');
