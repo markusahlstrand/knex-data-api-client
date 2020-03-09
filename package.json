@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/markusahlstrand/knex-data-api-client#readme",
   "dependencies": {
-    "aws-sdk": "2.632.0",
     "bluebird": "3.7.2",
     "data-api-client": "1.0.1"
   },
@@ -36,6 +35,7 @@
     "knex": "0.20.10"
   },
   "devDependencies": {
+    "aws-sdk": "2.632.0",
     "chai": "4.2.0",
     "dotenv": "8.2.0",
     "eslint": "6.8.0",
