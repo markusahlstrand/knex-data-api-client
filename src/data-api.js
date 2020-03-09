@@ -5,7 +5,6 @@
 
 const dataApiClient = require('data-api-client');
 const util = require('util');
-const Bluebird = require('bluebird');
 
 const DataAPITransaction = require('./data-api-transaction');
 const sqlstring = require('./sqlstring');
@@ -30,13 +29,11 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
     acquireConnection() {
       const connection = this._driver(this.connectionSettings);
-      // return Bluebird.resolve(connection);
       return Promise.resolve(connection);
     },
 
     // Destroy - no connection pool to tear down, so just resolve
     destroy() {
-      // return Bluebird.resolve();
       return Promise.resolve();
     },
 
@@ -45,7 +42,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
     _query(connection, obj) {
       if (!obj || typeof obj === 'string') obj = { sql: obj };
 
-      return new Bluebird((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         if (!obj.sql) {
           resolve();
           return;
