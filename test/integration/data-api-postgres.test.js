@@ -19,7 +19,7 @@ describe('data-api-postgress', () => {
     const tableNames = tables.map((table) => table.table_name);
 
     for (let i = 0; i < tableNames.length; i++) {
-      const tableName = tableNames[i];
+      const tableName = tableNames[tableNames.length - i - 1];
       console.log(`Drop table ${tableName}`);
       await postgres.schema.dropTable(tableName);
     }
@@ -50,10 +50,7 @@ describe('data-api-postgress', () => {
         table.string('value');
       });
 
-      const actual = await postgres
-        .table(tableName)
-        .insert({ value: 'test' })
-        .returning('*');
+      const actual = await postgres.table(tableName).insert({ value: 'test' }).returning('*');
 
       expect(actual.length).to.equal(1);
       expect(actual[0].id).to.exist;
@@ -117,10 +114,7 @@ describe('data-api-postgress', () => {
       await postgres.table(tableName).insert({ value: 'test1' });
       await postgres.table(tableName).insert({ value: 'test2' });
 
-      const rows = await postgres
-        .select()
-        .from(tableName)
-        .whereIn('value', ['test1', 'test2']);
+      const rows = await postgres.select().from(tableName).whereIn('value', ['test1', 'test2']);
 
       expect(rows.length).to.equal(2);
     });
@@ -138,10 +132,7 @@ describe('data-api-postgress', () => {
       let _err;
 
       try {
-        await postgres
-          .table(tableName)
-          .insert({ non_existing_colun: 'test' })
-          .returning('*');
+        await postgres.table(tableName).insert({ non_existing_colun: 'test' }).returning('*');
       } catch (err) {
         _err = err;
       }
@@ -177,16 +168,10 @@ describe('data-api-postgress', () => {
         table.integer('table1_id');
         table.string('value2');
 
-        table
-          .foreign('table1_id')
-          .references('id')
-          .inTable(tableName1);
+        table.foreign('table1_id').references('id').inTable(tableName1);
       });
 
-      const response = await postgres
-        .table(tableName1)
-        .insert({ value1: 'test1' })
-        .returning('*');
+      const response = await postgres.table(tableName1).insert({ value1: 'test1' }).returning('*');
 
       await postgres.table(tableName2).insert({ value2: 'test2', table1_id: response[0].id });
 

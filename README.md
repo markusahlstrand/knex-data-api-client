@@ -11,35 +11,40 @@ The **Knex Aurora Data API Client** is a Knex extension that supports the RDS Da
 
 Support for transactions, and nestTables is included.
 
+## Configuration
+
+The library uses the default AWS credentials to connect to the RDS database using the data-api.
+The [data-api-client](https://www.npmjs.com/package/data-api-client) that this library is a using provides more documentation on the permissions required and how to enable the data-api for the database.
+
 ## Use
 
 To use aurora in mysql mode:
 
 ```javascript
-const knexDataApiClient = require("knex-aurora-data-api-client");
-const knex = require("knex")({
+const knexDataApiClient = require('knex-aurora-data-api-client');
+const knex = require('knex')({
   client: knexDataApiClient.mysql,
   connection: {
-    secretArn: "secret-arn", // Required
-    resourceArn: "db-resource-arn", // Required
-    database: "db-name",
-    region: "eu-west-2"
-  }
+    secretArn: 'secret-arn', // Required
+    resourceArn: 'db-resource-arn', // Required
+    database: 'db-name',
+    region: 'eu-west-2',
+  },
 });
 ```
 
 To use aurora in postgres mode:
 
 ```javascript
-const knexDataApiClient = require("knex-aurora-data-api-client");
-const knex = require("knex")({
+const knexDataApiClient = require('knex-aurora-data-api-client');
+const knex = require('knex')({
   client: knexDataApiClient.postgres,
   connection: {
-    secretArn: "secret-arn", // Required
-    resourceArn: "db-resource-arn", // Required
-    database: "db-name",
-    region: "eu-west-2"
-  }
+    secretArn: 'secret-arn', // Required
+    resourceArn: 'db-resource-arn', // Required
+    database: 'db-name',
+    region: 'eu-west-2',
+  },
 });
 ```
 
@@ -48,9 +53,7 @@ const knex = require("knex")({
 Note - this significantly increases the data required back from the RDS data api.
 
 ```javascript
-knex()
-  .doSomething()
-  .options({ nestTables: true });
+knex().doSomething().options({ nestTables: true });
 ```
 
 ## Credits
