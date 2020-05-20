@@ -28,13 +28,13 @@
   },
   "homepage": "https://github.com/markusahlstrand/knex-data-api-client#readme",
   "dependencies": {
-    "aws-sdk": "2.680.0",
     "bluebird": "3.7.2",
     "data-api-client": "1.0.1",
     "package": "rm -rf node_modules && rm -rf examples/node_modules && npm install --prod"
   },
   "peerDependencies": {
-    "knex": "0.21.1"
+    "aws-sdk": "^2.680.0",
+    "knex": "^0.21.1"
   },
   "devDependencies": {
     "chai": "4.2.0",
