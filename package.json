@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
-    "test": "mocha test/**/*.test.js --timeout 10000"
+    "test": "mocha test/**/*.test.js --timeout 10000",
+    "package": "rm -rf node_modules && npm install --prod"
   },
   "repository": {
     "type": "git",
@@ -29,8 +30,7 @@
   "homepage": "https://github.com/markusahlstrand/knex-data-api-client#readme",
   "dependencies": {
     "bluebird": "3.7.2",
-    "data-api-client": "1.0.1",
-    "package": "rm -rf node_modules && rm -rf examples/node_modules && npm install --prod"
+    "data-api-client": "1.0.1"
   },
   "peerDependencies": {
     "aws-sdk": "^2.680.0",
