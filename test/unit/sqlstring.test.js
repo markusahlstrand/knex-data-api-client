@@ -18,10 +18,7 @@ describe('mysql', () => {
       },
     });
 
-    const query = knex
-      .select('*')
-      .from('test')
-      .toString();
+    const query = knex.select('*').from('test').toString();
     expect(query).to.equal('select * from `test`');
   });
 
@@ -49,10 +46,7 @@ describe('Postgres', () => {
       },
     });
 
-    const query = knex
-      .select('*')
-      .from('test')
-      .toString();
+    const query = knex.select('*').from('test').toString();
     expect(query).to.equal('select * from "test"');
   });
 
@@ -68,11 +62,7 @@ describe('Postgres', () => {
       },
     });
 
-    const query = knex
-      .select('*')
-      .from('test')
-      .where({ foo: 'bar' })
-      .toString();
+    const query = knex.select('*').from('test').where({ foo: 'bar' }).toString();
     expect(query).to.equal('select * from "test" where "foo" = \'bar\'');
   });
 
@@ -94,5 +84,15 @@ describe('Postgres', () => {
     );
 
     expect(query).to.equal('INSERT INTO table(number1,number2) VALUES (1,NULL);');
+  });
+
+  it('should insert values with $ correctly', () => {
+    const query = sqlstring.format(
+      'INSERT INTO table(number1,number2) VALUES (1,"$1");',
+      [],
+      constants.dialects.postgres,
+    );
+
+    expect(query).to.equal('INSERT INTO table(number1,number2) VALUES (1,"$1");');
   });
 });
