@@ -180,8 +180,6 @@ describe('data-api-postgress', () => {
         .from(tableName1)
         .innerJoin(tableName2, `${tableName1}.id`, `${tableName2}.table1_id`);
 
-      console.log('Response: ' + JSON.stringify(rows));
-
       expect(rows.length).to.equal(1);
       expect(rows[0].value2).to.equal('test2');
     });
