@@ -70,7 +70,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
           .query(query)
           .then((response) => {
             response.rows = response.records;
-            obj.response = obj.output ? obj.output(response) : response;
+            obj.response = response;
             resolve(obj);
           })
           .catch((err) => {
@@ -80,7 +80,13 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
     },
 
     // Process the response as returned from the query, and format like the standard mysql engine
-    processResponse(obj) {
+    processResponse(obj, runner) {
+      if (obj == null) return;
+      const rows = obj.response.records;
+      const fields = rows && rows[0] ? Object.keys(rows[0]) : [];
+      // eslint-disable-next-line consistent-return
+      if (obj.output) return obj.output.call(runner, rows, fields);
+
       // Format insert
       if (obj.method === 'insert') {
         if (dialect === 'mysql') {
