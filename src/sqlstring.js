@@ -9,7 +9,7 @@ function format(sql, bindings, dialect) {
 
   return knexClient
     .raw(
-      sql.replace(/`/g, '"').replace(/"[^"]*"|(\$\d+)/g, (match, $1, $2) => {
+      sql.replace(/`/g, '"').replace(/"[^"]*"|(\$\d+)/g, (match, $1) => {
         if ($1) {
           return '?';
         }
