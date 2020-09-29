@@ -128,6 +128,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
         obj.response = obj.response.numberOfRecordsUpdated;
       }
 
+      // eslint-disable-next-line consistent-return
       return obj.response;
     },
   });
