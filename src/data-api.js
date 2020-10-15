@@ -81,11 +81,17 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
     // Process the response as returned from the query, and format like the standard mysql engine
     processResponse(obj, runner) {
-      if (obj == null) return;
+      if (obj === null) {
+        return null;
+      }
+
       const rows = obj.response.records;
       const fields = rows && rows[0] ? Object.keys(rows[0]) : [];
+
       // eslint-disable-next-line consistent-return
-      if (obj.output) return obj.output.call(runner, rows, fields);
+      if (obj.output) {
+        return obj.output.call(runner, obj.response, fields);
+      }
 
       // Format insert
       if (obj.method === 'insert') {
