@@ -5,6 +5,8 @@ AWS.config.update({
 
 require('dotenv').config();
 
+console.log(process.env.DB_CLUSTER_ARN);
+
 const knexDataApiClient = require('./index');
 
 module.exports = {
