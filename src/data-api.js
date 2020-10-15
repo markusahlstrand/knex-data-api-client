@@ -81,7 +81,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
     // Process the response as returned from the query, and format like the standard mysql engine
     processResponse(obj, runner) {
-      if (obj === null) {
+      if (!obj) {
         return null;
       }
 
