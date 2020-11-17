@@ -90,6 +90,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
       // eslint-disable-next-line consistent-return
       if (obj.output) {
+        if (dialect === 'mysql') return obj.output.call(runner, rows, fields);
         return obj.output.call(runner, obj.response, fields);
       }
 
