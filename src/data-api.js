@@ -97,13 +97,11 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       if (obj.method === 'insert') {
         if (dialect === 'mysql') {
           obj.response = [obj.response.insertId];
-        } else {
           // The data-api client is returning single fields in an object
-          if (obj.returning && !Array.isArray(obj.returning) && obj.returning !== '*') {
-            obj.response = obj.response.records.map((record) => record[obj.returning]);
-          } else {
-            obj.response = obj.response.records;
-          }
+        } else if (obj.returning && !Array.isArray(obj.returning) && obj.returning !== '*') {
+          obj.response = obj.response.records.map((record) => record[obj.returning]);
+        } else {
+          obj.response = obj.response.records;
         }
       }
 
