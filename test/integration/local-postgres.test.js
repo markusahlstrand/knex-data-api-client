@@ -2,7 +2,7 @@ const { expect } = require('chai');
 
 const postgres = require('knex')({
   client: 'pg',
-  connection: 'postgres://localhost/test',
+  connection: 'postgres://localhost',
 });
 
 let counter = 0;
@@ -99,6 +99,20 @@ describe('postgres', () => {
 
       expect(rows.length).to.equal(2);
     });
+  });
+
+  it('should insert a row and return an array of ids', async () => {
+    const tableName = 'test-' + counter++;
+
+    await postgres.schema.createTable(tableName, (table) => {
+      table.increments();
+      table.string('value');
+    });
+
+    const rows = await postgres.table(tableName).insert({ value: 'test' }).returning('id');
+
+    expect(rows.length).to.equal(1);
+    expect(rows[0]).to.equal(1);
   });
 
   describe('whereIn', () => {

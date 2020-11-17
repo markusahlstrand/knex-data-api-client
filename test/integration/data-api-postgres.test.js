@@ -21,7 +21,7 @@ describe('data-api-postgress', () => {
     for (let i = 0; i < tableNames.length; i++) {
       const tableName = tableNames[tableNames.length - i - 1];
       console.log(`Drop table ${tableName}`);
-      await postgres.schema.dropTable(tableName);
+      await postgres.raw(`DROP TABLE "${tableName}" CASCADE`);
     }
   });
 
@@ -118,6 +118,20 @@ describe('data-api-postgress', () => {
 
       expect(rows.length).to.equal(2);
     });
+  });
+
+  it('should insert a row and return an array of ids', async () => {
+    const tableName = 'test-' + counter++;
+
+    await postgres.schema.createTable(tableName, (table) => {
+      table.increments();
+      table.string('value');
+    });
+
+    const rows = await postgres.table(tableName).insert({ value: 'test' }).returning('id');
+
+    expect(rows.length).to.equal(1);
+    expect(rows[0]).to.equal(1);
   });
 
   describe('errors', () => {
