@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 
 const { postgres } = require('./knexClient');
+const { migrateToLatest } = require('./migrations-test');
 
 let counter = 0;
 
@@ -9,8 +10,10 @@ let counter = 0;
 //   expect(test.records[0].result).toBe(2);
 // });
 
-describe('data-api-postgress', () => {
+describe('data-api-postgres', () => {
   before(async () => {
+    console.log('Before');
+
     const tables = await postgres
       .select('table_name')
       .from('information_schema.tables')
@@ -30,7 +33,8 @@ describe('data-api-postgress', () => {
 
     await postgres.schema.createTable(tableName, (table) => {
       table.increments();
-      table.string('value');
+      table.string('name'), table.integer('batch');
+      table.datetime('migration_time');
     });
 
     const rows = await postgres
@@ -99,6 +103,40 @@ describe('data-api-postgress', () => {
       const rows = await postgres.select().from(tableName);
 
       expect(rows.length).to.equal(2);
+    });
+  });
+
+  describe('update', () => {
+    it('should update a row', async () => {
+      const tableName = 'test-' + counter++;
+
+      await postgres.schema.createTable(tableName, (table) => {
+        table.increments();
+        table.string('value');
+      });
+
+      await postgres.table(tableName).insert({ value: 'test' });
+
+      await postgres(tableName).update({ value: 'update' }).where({ value: 'test' });
+
+      const rows = await postgres.select('value').from(tableName);
+
+      expect(rows.length).to.equal(1);
+      expect(rows[0].value).to.equal('update');
+    });
+  });
+
+  describe('select', () => {
+    it('should return an empty array for a query on an empty table', async () => {
+      const tableName = 'test-' + counter++;
+
+      await postgres.schema.createTable(tableName, (table) => {
+        table.increments();
+        table.string('value');
+      });
+      const rows = await postgres.select('value').from(tableName).orderBy('id', 'asc');
+
+      expect(rows.length).to.equal(0);
     });
   });
 
@@ -196,6 +234,14 @@ describe('data-api-postgress', () => {
 
       expect(rows.length).to.equal(1);
       expect(rows[0].value2).to.equal('test2');
+    });
+  });
+
+  describe('knex-migrate', function () {
+    it('should setup a database with knex-migrate', async function () {
+      this.timeout(100000);
+
+      await migrateToLatest('knexFiles/postgres.js');
     });
   });
 });

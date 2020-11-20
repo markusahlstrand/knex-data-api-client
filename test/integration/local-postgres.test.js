@@ -1,4 +1,5 @@
 const { expect } = require('chai');
+const knexMigrate = require('knex-migrate');
 
 const postgres = require('knex')({
   client: 'pg',
@@ -20,7 +21,7 @@ describe('postgres', () => {
     for (let i = 0; i < tableNames.length; i++) {
       const tableName = tableNames[i];
       console.log(`Drop table ${tableName}`);
-      await postgres.schema.dropTable(tableName);
+      await postgres.raw(`DROP TABLE "${tableName}" CASCADE`);
     }
   });
 
@@ -115,6 +116,44 @@ describe('postgres', () => {
     expect(rows[0]).to.equal(1);
   });
 
+  describe('select', () => {
+    it('should query for a single field', async () => {
+      const tableName = 'test-' + counter++;
+
+      await postgres.schema.createTable(tableName, (table) => {
+        table.increments();
+        table.string('value');
+      });
+
+      await postgres.table(tableName).insert({ value: 'test' });
+
+      const rows = await postgres.select('value').from(tableName);
+
+      expect(rows.length).to.equal(1);
+      expect(rows[0].value).to.equal('test');
+    });
+  });
+
+  describe('update', () => {
+    it('should update a row', async () => {
+      const tableName = 'test-' + counter++;
+
+      await postgres.schema.createTable(tableName, (table) => {
+        table.increments();
+        table.string('value');
+      });
+
+      await postgres.table(tableName).insert({ value: 'test' });
+
+      await postgres(tableName).update({ value: 'update' }).where({ value: 'test' });
+
+      const rows = await postgres.select('value').from(tableName);
+
+      expect(rows.length).to.equal(1);
+      expect(rows[0].value).to.equal('update');
+    });
+  });
+
   describe('whereIn', () => {
     it('should insert a row and fetch the result', async () => {
       const tableName = 'test-' + counter++;
@@ -195,6 +234,21 @@ describe('postgres', () => {
 
       expect(rows.length).to.equal(1);
       expect(rows[0].value2).to.equal('test2');
+    });
+  });
+
+  describe('knex-migrate', () => {
+    it('should setup a database with knex-migrate', async () => {
+      const log = ({ action, migration }) => console.log('Doing ' + action + ' on ' + migration);
+
+      return knexMigrate(
+        'up',
+        {
+          knexfile: 'test/integration/knexFiles/local-postgres.js',
+          migrations: 'test/integration/migrations',
+        },
+        log,
+      );
     });
   });
 });

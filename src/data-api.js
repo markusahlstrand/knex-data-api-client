@@ -66,6 +66,8 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
           query.transactionId = connection.__knexTxId;
         }
 
+        console.log(query.sql);
+
         connection
           .query(query)
           .then((response) => {
@@ -74,6 +76,9 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
             resolve(obj);
           })
           .catch((err) => {
+            if (err.message.startsWith('Database error code: 1064')) {
+              err.code = 'ER_NO_SUCH_TABLE';
+            }
             reject(err);
           });
       });
@@ -90,6 +95,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
       // eslint-disable-next-line consistent-return
       if (obj.output) {
+        console.log('got here');
         return obj.output.call(runner, obj.response, fields);
       }
 
