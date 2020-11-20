@@ -66,8 +66,6 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
           query.transactionId = connection.__knexTxId;
         }
 
-        console.log(query.sql);
-
         connection
           .query(query)
           .then((response) => {
@@ -76,7 +74,10 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
             resolve(obj);
           })
           .catch((err) => {
-            if (err.message.startsWith('Database error code: 1064')) {
+            if (
+              err.message.startsWith('Database error code: 1064') ||
+              err.message.startsWith('Database error code: 1146')
+            ) {
               err.code = 'ER_NO_SUCH_TABLE';
             }
             reject(err);
@@ -141,6 +142,11 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       // Format delete
       if (obj.method === 'del' || obj.method === 'update') {
         obj.response = obj.response.numberOfRecordsUpdated;
+      }
+
+      // Format pluck
+      if (obj.method === 'pluck') {
+        obj.response = obj.response.records;
       }
 
       // eslint-disable-next-line consistent-return

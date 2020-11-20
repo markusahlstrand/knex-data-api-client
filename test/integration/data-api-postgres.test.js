@@ -239,9 +239,7 @@ describe('data-api-postgres', () => {
 
   describe('knex-migrate', function () {
     it('should setup a database with knex-migrate', async function () {
-      this.timeout(100000);
-
-      await migrateToLatest('knexFiles/postgres.js');
+      await migrateToLatest('test/integration/knexFiles/postgres.js');
     });
   });
 });

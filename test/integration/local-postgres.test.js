@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const knexMigrate = require('knex-migrate');
+const { migrateToLatest } = require('./migrations-test');
 
 const postgres = require('knex')({
   client: 'pg',
@@ -238,17 +238,10 @@ describe('postgres', () => {
   });
 
   describe('knex-migrate', () => {
-    it('should setup a database with knex-migrate', async () => {
-      const log = ({ action, migration }) => console.log('Doing ' + action + ' on ' + migration);
+    it('should setup a database with knex-migrate', async function () {
+      this.timeout(100000);
 
-      return knexMigrate(
-        'up',
-        {
-          knexfile: 'test/integration/knexFiles/local-postgres.js',
-          migrations: 'test/integration/migrations',
-        },
-        log,
-      );
+      await migrateToLatest('test/integration/knexFiles/local-postgres.js');
     });
   });
 });
