@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 
 const { postgres } = require('./knexClient');
+const commonTests = require('./common-tests');
 const { migrateToLatest } = require('./migrations-test');
 
 let counter = 0;
@@ -29,132 +30,41 @@ describe('data-api-postgres', () => {
   });
 
   it('should create a test table', async () => {
-    const tableName = 'test-' + counter++;
-
-    await postgres.schema.createTable(tableName, (table) => {
-      table.increments();
-      table.string('name'), table.integer('batch');
-      table.datetime('migration_time');
-    });
-
-    const rows = await postgres
-      .select('table_name')
-      .from('information_schema.tables')
-      .where({ table_name: tableName });
-
-    expect(rows.length).to.equal(1);
+    await commonTests.createATestTable(postgres);
   });
 
   describe('insert', () => {
     it('should insert a row', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      const actual = await postgres.table(tableName).insert({ value: 'test' }).returning('*');
-
-      expect(actual.length).to.equal(1);
-      expect(actual[0].id).to.exist;
-      expect(actual[0].value).to.equal('test');
+      await commonTests.insertRowAndFetch(postgres);
     });
 
     it('should insert a row and fetch the result', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      await postgres.table(tableName).insert({ value: 'test' });
-
-      const rows = await postgres.select().from(tableName);
-
-      expect(rows.length).to.equal(1);
+      await commonTests.insertRowAndFetch(postgres);
     });
 
     it('should insert two rows in a transaction', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      try {
-        await postgres
-          .transaction(async (trx) => {
-            await trx.table(tableName).insert({ value: 'Test1' });
-            await trx.table(tableName).insert({ value: 'Test2' });
-          })
-          .then(() => {
-            console.log('Transaction complete.');
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      } catch (err) {
-        console.error(err);
-      }
-
-      const rows = await postgres.select().from(tableName);
-
-      expect(rows.length).to.equal(2);
+      await commonTests.insertTwoRowsInTransaction(postgres);
     });
   });
 
   describe('update', () => {
     it('should update a row', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      await postgres.table(tableName).insert({ value: 'test' });
-
-      await postgres(tableName).update({ value: 'update' }).where({ value: 'test' });
-
-      const rows = await postgres.select('value').from(tableName);
-
-      expect(rows.length).to.equal(1);
-      expect(rows[0].value).to.equal('update');
+      await commonTests.updateARow(postgres);
     });
   });
 
   describe('select', () => {
+    it('should query for a single field', async () => {
+      await commonTests.queryForASingleField(postgres);
+    });
     it('should return an empty array for a query on an empty table', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-      const rows = await postgres.select('value').from(tableName).orderBy('id', 'asc');
-
-      expect(rows.length).to.equal(0);
+      await commonTests.returnEmptyArrayForQueryOnEmptyTable(postgres);
     });
   });
 
   describe('whereIn', () => {
-    it('should insert a row and fetch the result', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      await postgres.table(tableName).insert({ value: 'test1' });
-      await postgres.table(tableName).insert({ value: 'test2' });
-
-      const rows = await postgres.select().from(tableName).whereIn('value', ['test1', 'test2']);
-
-      expect(rows.length).to.equal(2);
+    it('should fetch to rows', async () => {
+      await commonTests.fetchToRowsUsingWhereIn(postgres);
     });
   });
 
@@ -174,66 +84,27 @@ describe('data-api-postgres', () => {
 
   describe('errors', () => {
     it('should return an error for a invalid insert', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      let _err;
-
-      try {
-        await postgres.table(tableName).insert({ non_existing_colun: 'test' }).returning('*');
-      } catch (err) {
-        _err = err;
-      }
-
-      expect(_err.message).to.contain('column "non_existing_colun" of');
+      await commonTests.returnAnErrorForInvalidInsert(postgres);
     });
 
     it('should return an error for a invalid select', async () => {
-      let _err;
-
-      try {
-        const response = await postgres.raw('select sadfasdfasdfasdf;');
-      } catch (err) {
-        _err = err;
-      }
-
-      expect(_err.message).to.contain('column "sadfasdfasdfasdf" does not exist');
+      await commonTests.returnAnErrorForInvalidSelect(postgres);
     });
   });
 
   describe('join', () => {
     it('should query two tables with an inner join', async () => {
-      const tableName1 = 'test-' + counter++;
-      const tableName2 = 'test-' + counter++;
+      await commonTests.queryTwoTablesWithAnInnerJoin(postgres);
+    });
+  });
 
-      await postgres.schema.createTable(tableName1, (table) => {
-        table.increments();
-        table.string('value1');
-      });
+  describe('hasTable', () => {
+    it('should return false if a table does not exist', async () => {
+      await commonTests.hasTableReturnsFalse(postgres);
+    });
 
-      await postgres.schema.createTable(tableName2, (table) => {
-        table.increments();
-        table.integer('table1_id');
-        table.string('value2');
-
-        table.foreign('table1_id').references('id').inTable(tableName1);
-      });
-
-      const response = await postgres.table(tableName1).insert({ value1: 'test1' }).returning('*');
-
-      await postgres.table(tableName2).insert({ value2: 'test2', table1_id: response[0].id });
-
-      const rows = await postgres
-        .select()
-        .from(tableName1)
-        .innerJoin(tableName2, `${tableName1}.id`, `${tableName2}.table1_id`);
-
-      expect(rows.length).to.equal(1);
-      expect(rows[0].value2).to.equal('test2');
+    it('should return true if a table exists', async () => {
+      await commonTests.hasTableReturnsTrue(postgres);
     });
   });
 

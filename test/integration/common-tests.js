@@ -1,0 +1,226 @@
+const { expect } = require('chai');
+
+let counter = 0;
+
+async function hasTableReturnsFalse(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  const exists = await knex.schema.hasTable(tableName);
+
+  expect(exists).to.equal(false);
+}
+
+async function hasTableReturnsTrue(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  const exists = await knex.schema.hasTable(tableName);
+
+  expect(exists).to.equal(true);
+}
+
+async function createATestTable(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('name'), table.integer('batch');
+    table.datetime('migration_time');
+  });
+
+  const rows = await knex
+    .select('table_name')
+    .from('information_schema.tables')
+    .where({ table_name: tableName });
+
+  expect(rows.length).to.equal(1);
+}
+
+async function queryForASingleField(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  await knex.table(tableName).insert({ value: 'test' });
+
+  const rows = await knex.select('value').from(tableName);
+
+  expect(rows.length).to.equal(1);
+  expect(rows[0].value).to.equal('test');
+}
+
+async function queryTwoTablesWithAnInnerJoin(knex) {
+  const tableName1 = 'common_test_' + counter++;
+  const tableName2 = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName1, (table) => {
+    table.increments();
+    table.string('value1');
+  });
+
+  await knex.schema.createTable(tableName2, (table) => {
+    table.increments();
+    table.integer('table1_id').unsigned();
+    table.string('value2');
+
+    table.foreign('table1_id').references('id').inTable(tableName1);
+  });
+
+  await knex.table(tableName1).insert({ value1: 'test1' }).returning('*');
+
+  // Mysql doesn't return the id of the created entity
+  await knex.table(tableName2).insert({ value2: 'test2', table1_id: 1 });
+
+  const rows = await knex
+    .select()
+    .from(tableName1)
+    .innerJoin(tableName2, `${tableName1}.id`, `${tableName2}.table1_id`);
+
+  console.log(JSON.stringify(rows));
+
+  expect(rows.length).to.equal(1);
+  expect(rows[0].value2).to.equal('test2');
+}
+
+async function returnAnErrorForInvalidInsert(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  let _err;
+
+  try {
+    await knex.table(tableName).insert({ non_existing_colun: 'test' }).returning('*');
+  } catch (err) {
+    _err = err;
+  }
+
+  expect(_err.message).to.contain('column "non_existing_colun" of');
+}
+
+async function returnAnErrorForInvalidSelect(knex) {
+  let _err;
+
+  try {
+    await knex.raw('select sadfasdfasdfasdf;');
+  } catch (err) {
+    _err = err;
+  }
+
+  expect(_err.message).to.contain('column "sadfasdfasdfasdf" does not exist');
+}
+
+async function fetchToRowsUsingWhereIn(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  await knex.table(tableName).insert({ value: 'test1' });
+  await knex.table(tableName).insert({ value: 'test2' });
+
+  const rows = await knex.select().from(tableName).whereIn('value', ['test1', 'test2']);
+
+  expect(rows.length).to.equal(2);
+}
+
+async function insertRowAndFetch(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  await knex.table(tableName).insert({ value: 'test' });
+
+  const rows = await knex.select().from(tableName);
+
+  expect(rows.length).to.equal(1);
+}
+
+async function insertTwoRowsInTransaction(knex) {
+  const tableName = 'common_test-' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  try {
+    await knex
+      .transaction(async (trx) => {
+        await trx.table(tableName).insert({ value: 'Test1' });
+        await trx.table(tableName).insert({ value: 'Test2' });
+      })
+      .then(() => {
+        console.log('Transaction complete.');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  } catch (err) {
+    console.error(err);
+  }
+
+  const rows = await knex.select().from(tableName);
+
+  expect(rows.length).to.equal(2);
+}
+
+async function updateARow(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  await knex.table(tableName).insert({ value: 'test' });
+
+  await knex(tableName).update({ value: 'update' }).where({ value: 'test' });
+
+  const rows = await knex.select('value').from(tableName);
+
+  expect(rows.length).to.equal(1);
+  expect(rows[0].value).to.equal('update');
+}
+
+async function returnEmptyArrayForQueryOnEmptyTable(knex) {
+  const tableName = 'common_test-' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+  const rows = await knex.select('value').from(tableName).orderBy('id', 'asc');
+
+  expect(rows.length).to.equal(0);
+}
+
+module.exports = {
+  createATestTable,
+  fetchToRowsUsingWhereIn,
+  hasTableReturnsFalse,
+  hasTableReturnsTrue,
+  insertRowAndFetch,
+  insertTwoRowsInTransaction,
+  queryForASingleField,
+  queryTwoTablesWithAnInnerJoin,
+  returnAnErrorForInvalidInsert,
+  returnAnErrorForInvalidSelect,
+  returnEmptyArrayForQueryOnEmptyTable,
+  updateARow,
+};
