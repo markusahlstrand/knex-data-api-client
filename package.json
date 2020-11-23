@@ -3,6 +3,9 @@
   "version": "1.2.5",
   "description": "Knex Aurora Data API Client",
   "main": "index.js",
+  "files": [
+    "src/**/*.js"
+  ],
   "scripts": {
     "lint": "eslint src",
     "test": "mocha test/**/*.test.js --timeout 10000",
