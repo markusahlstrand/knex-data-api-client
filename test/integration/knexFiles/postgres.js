@@ -5,15 +5,13 @@ AWS.config.update({
 
 require('dotenv').config();
 
-console.log(process.env.DB_CLUSTER_ARN);
-
-const knexDataApiClient = require('./index');
+const knexDataApiClient = require('../../../index');
 
 module.exports = {
   client: knexDataApiClient.postgres,
   connection: {
     secretArn: process.env.DB_SECRET_ARN,
-    resourceArn: process.env.DB_CLUSTER_ARN,
+    resourceArn: process.env.POSTGRES_DB_CLUSTER_ARN,
     database: process.env.DB_NAME,
     region: process.env.DB_REGION,
   },

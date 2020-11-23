@@ -74,6 +74,12 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
             resolve(obj);
           })
           .catch((err) => {
+            if (
+              err.message.startsWith('Database error code: 1064') ||
+              err.message.startsWith('Database error code: 1146')
+            ) {
+              err.code = 'ER_NO_SUCH_TABLE';
+            }
             reject(err);
           });
       });
@@ -90,6 +96,9 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
       // eslint-disable-next-line consistent-return
       if (obj.output) {
+        if (dialect === 'mysql') {
+          return obj.output.call(runner, rows, fields);
+        }
         return obj.output.call(runner, obj.response, fields);
       }
 
@@ -135,6 +144,11 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       // Format delete
       if (obj.method === 'del' || obj.method === 'update') {
         obj.response = obj.response.numberOfRecordsUpdated;
+      }
+
+      // Format pluck
+      if (obj.method === 'pluck') {
+        obj.response = obj.response.records;
       }
 
       // eslint-disable-next-line consistent-return
