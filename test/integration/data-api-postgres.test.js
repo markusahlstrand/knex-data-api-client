@@ -57,8 +57,13 @@ describe('data-api-postgres', () => {
     it('should query for a single field', async () => {
       await commonTests.queryForASingleField(postgres);
     });
+
     it('should return an empty array for a query on an empty table', async () => {
       await commonTests.returnEmptyArrayForQueryOnEmptyTable(postgres);
+    });
+
+    it('should query for a single json field', async () => {
+      await commonTests.queryForASingleJSONField(postgres);
     });
   });
 
