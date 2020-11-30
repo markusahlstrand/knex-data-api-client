@@ -3,8 +3,18 @@ const knexClientFactory = require('knex');
 function format(sql, bindings, dialect) {
   const knexClient = knexClientFactory({ client: dialect });
 
+  const stringBindings = bindings
+    ? bindings.map((binding) => {
+        if (typeof binding === 'object') {
+          return JSON.stringify(binding);
+        }
+
+        return binding;
+      })
+    : bindings;
+
   if (dialect === 'mysql') {
-    return knexClient.raw(sql, bindings).toString();
+    return knexClient.raw(sql, stringBindings).toString();
   }
 
   return knexClient
@@ -15,7 +25,7 @@ function format(sql, bindings, dialect) {
         }
         return match;
       }),
-      bindings,
+      stringBindings,
     )
     .toString();
 }
