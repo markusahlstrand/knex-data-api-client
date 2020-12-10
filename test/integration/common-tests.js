@@ -68,10 +68,41 @@ async function queryForASingleJSONField(knex) {
 
   const rows = await knex.select('value').from(tableName);
 
-  console.log(JSON.stringify(rows));
+  expect(rows.length).to.equal(1);
+  expect(rows[0].value.foo).to.equal('bar');
+}
+
+async function queryForASingleJSONBField(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.jsonb('value');
+  });
+
+  await knex.table(tableName).insert({ value: { foo: 'bar' } });
+
+  const rows = await knex.select('value').from(tableName);
 
   expect(rows.length).to.equal(1);
   expect(rows[0].value.foo).to.equal('bar');
+}
+
+async function queryForAJSONArrayField(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.json('value');
+  });
+
+  // Need to stringify.. http://knexjs.org/#Schema-json
+  await knex.table(tableName).insert({ value: JSON.stringify(['bar']) });
+
+  const rows = await knex.select('value').from(tableName);
+
+  expect(rows.length).to.equal(1);
+  expect(rows[0].value[0]).to.equal('bar');
 }
 
 async function queryTwoTablesWithAnInnerJoin(knex) {
@@ -100,8 +131,6 @@ async function queryTwoTablesWithAnInnerJoin(knex) {
     .select()
     .from(tableName1)
     .innerJoin(tableName2, `${tableName1}.id`, `${tableName2}.table1_id`);
-
-  console.log(JSON.stringify(rows));
 
   expect(rows.length).to.equal(1);
   expect(rows[0].value2).to.equal('test2');
@@ -237,6 +266,8 @@ module.exports = {
   insertTwoRowsInTransaction,
   queryForASingleField,
   queryForASingleJSONField,
+  queryForASingleJSONBField,
+  queryForAJSONArrayField,
   queryTwoTablesWithAnInnerJoin,
   returnAnErrorForInvalidInsert,
   returnAnErrorForInvalidSelect,
