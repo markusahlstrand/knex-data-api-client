@@ -65,6 +65,14 @@ describe('data-api-postgres', () => {
     it('should query for a single json field', async () => {
       await commonTests.queryForASingleJSONField(postgres);
     });
+
+    it('should query for a json array field', async () => {
+      await commonTests.queryForAJSONArrayField(postgres);
+    });
+
+    it('should query for a single jsonb field', async () => {
+      await commonTests.queryForASingleJSONBField(postgres);
+    });
   });
 
   describe('whereIn', () => {

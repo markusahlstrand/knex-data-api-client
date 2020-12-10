@@ -1,3 +1,5 @@
+const jsonColumnTypes = ['json', 'jsonb'];
+
 function jsonParseRecord(jsonColumns, record) {
   const parsedColumns = {};
 
@@ -12,7 +14,9 @@ function jsonParseRecord(jsonColumns, record) {
 }
 
 function jsonParseReponse({ columnMetadata, records }) {
-  const jsonColumns = columnMetadata.filter((metadata) => metadata.typeName === 'json');
+  const jsonColumns = columnMetadata.filter(
+    (metadata) => jsonColumnTypes.indexOf(metadata.typeName) !== -1,
+  );
 
   return records.map((record) => jsonParseRecord(jsonColumns, record));
 }
