@@ -42,6 +42,10 @@ describe('data-api-postgres', () => {
       await commonTests.insertRowAndFetch(postgres);
     });
 
+    it('should insert a row with timestamp as null', async () => {
+      await commonTests.insertRowWithTimestampAsNull(postgres);
+    });
+
     it('should insert two rows in a transaction', async () => {
       await commonTests.insertTwoRowsInTransaction(postgres);
     });

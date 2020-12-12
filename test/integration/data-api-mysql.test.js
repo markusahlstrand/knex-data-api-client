@@ -58,6 +58,10 @@ describe('data-api-mysql', () => {
       await commonTests.insertRowAndFetch(mysql);
     });
 
+    it('should insert a row with timestamp as null', async () => {
+      await commonTests.insertRowWithTimestampAsNull(mysql);
+    });
+
     it('should insert two rows in a transaction', async () => {
       await commonTests.insertTwoRowsInTransaction(mysql);
     });

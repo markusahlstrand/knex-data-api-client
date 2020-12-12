@@ -37,33 +37,15 @@ describe('postgres', () => {
 
   describe('inserts', () => {
     it('should insert a row', async () => {
-      const tableName = 'test-' + counter++;
-
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      const actual = await postgres.table(tableName).insert({ value: 'test' }).returning('*');
-
-      expect(actual.length).to.equal(1);
-      expect(actual[0].id).to.exist;
-      expect(actual[0].value).to.equal('test');
+      await commonTests.insertRowAndFetch(postgres);
     });
 
     it('should insert a row and fetch the result', async () => {
-      const tableName = 'test-' + counter++;
+      await commonTests.insertRowAndFetch(postgres);
+    });
 
-      await postgres.schema.createTable(tableName, (table) => {
-        table.increments();
-        table.string('value');
-      });
-
-      await postgres.table(tableName).insert({ value: 'test' });
-
-      const rows = await postgres.select().from(tableName);
-
-      expect(rows.length).to.equal(1);
+    it('should insert a row with timestamp as null', async () => {
+      await commonTests.insertRowWithTimestampAsNull(postgres);
     });
 
     it('should insert two rows in a transaction', async () => {

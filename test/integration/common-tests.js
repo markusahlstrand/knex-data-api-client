@@ -215,6 +215,19 @@ async function insertRowAndFetch(knex) {
   expect(rows.length).to.equal(1);
 }
 
+async function insertRowWithTimestampAsNull(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.timestamp('value');
+  });
+
+  const response = await knex.table(tableName).insert({ value: null }).returning('*');
+
+  expect(response.length).to.equal(1);
+}
+
 async function insertTwoRowsInTransaction(knex) {
   const tableName = 'common_test-' + counter++;
 
@@ -300,6 +313,7 @@ module.exports = {
   hasTableReturnsFalse,
   hasTableReturnsTrue,
   insertRowAndFetch,
+  insertRowWithTimestampAsNull,
   insertTwoRowsInTransaction,
   queryForASingleField,
   queryForASingleJSONField,
