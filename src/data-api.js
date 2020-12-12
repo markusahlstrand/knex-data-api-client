@@ -146,7 +146,11 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
       // Format delete
       if (obj.method === 'del' || obj.method === 'update') {
-        obj.response = obj.response.numberOfRecordsUpdated;
+        if (dialect === 'mysql') {
+          obj.response = obj.response.numberOfRecordsUpdated;
+        } else {
+          obj.response = obj.response.records;
+        }
       }
 
       // Format pluck

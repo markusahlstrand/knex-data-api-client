@@ -111,11 +111,19 @@ describe('postgres', () => {
     it('should update a row', async () => {
       await commonTests.updateARow(postgres);
     });
+
+    it('should update a row and return the results', async () => {
+      await commonTests.updateARowReturning(postgres);
+    });
   });
 
   describe('whereIn', () => {
     it('should fetch to rows', async () => {
       await commonTests.fetchToRowsUsingWhereIn(postgres);
+    });
+
+    it('should fetch to rows with numbers', async () => {
+      await commonTests.fetchToRowsUsingWhereInWithNumbers(postgres);
     });
   });
 
