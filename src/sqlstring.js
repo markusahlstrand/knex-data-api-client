@@ -7,7 +7,9 @@ function format(sql, bindings, dialect) {
     ? bindings.map((binding) => {
         if (!binding) {
           return binding;
-        } else if (typeof binding === 'object') {
+        }
+
+        if (typeof binding === 'object') {
           return JSON.stringify(binding);
         }
 
