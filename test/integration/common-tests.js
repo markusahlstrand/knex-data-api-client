@@ -183,6 +183,23 @@ async function fetchToRowsUsingWhereIn(knex) {
   expect(rows.length).to.equal(2);
 }
 
+async function fetchToRowsUsingWhereInWithNumbers(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.integer('value');
+  });
+
+  await knex.table(tableName).insert({ value: 1 });
+  await knex.table(tableName).insert({ value: 2 });
+  await knex.table(tableName).insert({ value: 3 });
+
+  const rows = await knex.select().from(tableName).whereIn('value', [1, 2]);
+
+  expect(rows.length).to.equal(2);
+}
+
 async function insertRowAndFetch(knex) {
   const tableName = 'common_test_' + counter++;
 
@@ -245,6 +262,25 @@ async function updateARow(knex) {
   expect(rows[0].value).to.equal('update');
 }
 
+async function updateARowReturning(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  await knex.table(tableName).insert({ value: 'test' });
+
+  const rows = await knex(tableName)
+    .update({ value: 'update' })
+    .where({ value: 'test' })
+    .returning('*');
+
+  expect(rows.length).to.equal(1);
+  expect(rows[0].value).to.equal('update');
+}
+
 async function returnEmptyArrayForQueryOnEmptyTable(knex) {
   const tableName = 'common_test-' + counter++;
 
@@ -260,6 +296,7 @@ async function returnEmptyArrayForQueryOnEmptyTable(knex) {
 module.exports = {
   createATestTable,
   fetchToRowsUsingWhereIn,
+  fetchToRowsUsingWhereInWithNumbers,
   hasTableReturnsFalse,
   hasTableReturnsTrue,
   insertRowAndFetch,
@@ -273,4 +310,5 @@ module.exports = {
   returnAnErrorForInvalidSelect,
   returnEmptyArrayForQueryOnEmptyTable,
   updateARow,
+  updateARowReturning,
 };

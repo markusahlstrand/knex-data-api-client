@@ -1,6 +1,6 @@
 {
   "name": "knex-aurora-data-api-client",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Knex Aurora Data API Client",
   "main": "index.js",
   "files": [
@@ -33,28 +33,28 @@
   },
   "homepage": "https://github.com/markusahlstrand/knex-data-api-client#readme",
   "dependencies": {
-    "@aws-cdk/aws-rds": "^1.77.0",
-    "@aws-cdk/core": "^1.77.0",
     "bluebird": "3.7.2",
     "data-api-client": "1.1.0"
   },
   "peerDependencies": {
-    "knex": "^0.21.12"
+    "knex": "^0.21.13"
   },
   "devDependencies": {
-    "aws-sdk": "^2.796.0",
+    "aws-sdk": "^2.809.0",
+    "@aws-cdk/aws-rds": "^1.78.0",
+    "@aws-cdk/core": "^1.78.0",
     "chai": "4.2.0",
     "dotenv": "8.2.0",
-    "eslint": "7.13.0",
+    "eslint": "7.15.0",
     "eslint-config-airbnb-base": "14.2.1",
-    "eslint-config-prettier": "6.15.0",
+    "eslint-config-prettier": "7.0.0",
     "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-prettier": "3.2.0",
     "knex": "0.21.1",
     "knex-migrate": "1.7.4",
     "mocha": "8.2.1",
     "mysql": "2.18.1",
     "pg": "8.5.1",
-    "prettier": "2.2.0"
+    "prettier": "2.2.1"
   }
 }
