@@ -135,6 +135,12 @@ describe('postgres', () => {
     });
   });
 
+  describe('delete', () => {
+    it('shold delete a row and return the count', async () => {
+      await commonTests.deleteARowReturnsTheNumberOfRecords(postgres);
+    });
+  });
+
   describe('knex-migrate', () => {
     it('should setup a database with knex-migrate', async function () {
       this.timeout(100000);

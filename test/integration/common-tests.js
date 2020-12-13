@@ -10,6 +10,21 @@ async function hasTableReturnsFalse(knex) {
   expect(exists).to.equal(false);
 }
 
+async function deleteARowReturnsTheNumberOfRecords(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  await knex.table(tableName).insert({ value: 'test' });
+
+  const updatedRows = await knex(tableName).where({ value: 'test' }).del();
+
+  expect(updatedRows).to.equal(1);
+}
+
 async function hasTableReturnsTrue(knex) {
   const tableName = 'common_test_' + counter++;
 
@@ -267,10 +282,11 @@ async function updateARow(knex) {
 
   await knex.table(tableName).insert({ value: 'test' });
 
-  await knex(tableName).update({ value: 'update' }).where({ value: 'test' });
+  const updatedRows = await knex(tableName).update({ value: 'update' }).where({ value: 'test' });
 
   const rows = await knex.select('value').from(tableName);
 
+  expect(updatedRows).to.equal(1);
   expect(rows.length).to.equal(1);
   expect(rows[0].value).to.equal('update');
 }
@@ -308,6 +324,7 @@ async function returnEmptyArrayForQueryOnEmptyTable(knex) {
 
 module.exports = {
   createATestTable,
+  deleteARowReturnsTheNumberOfRecords,
   fetchToRowsUsingWhereIn,
   fetchToRowsUsingWhereInWithNumbers,
   hasTableReturnsFalse,

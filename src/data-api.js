@@ -145,11 +145,16 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       }
 
       // Format delete
-      if (obj.method === 'del' || obj.method === 'update') {
+      if (obj.method === 'del') {
+        obj.response = obj.response.numberOfRecordsUpdated;
+      }
+
+      // Format update
+      if (obj.method === 'update') {
         if (dialect === 'mysql') {
           obj.response = obj.response.numberOfRecordsUpdated;
         } else {
-          obj.response = obj.response.records;
+          obj.response = obj.response.records || obj.response.numberOfRecordsUpdated;
         }
       }
 
