@@ -133,6 +133,12 @@ describe('data-api-postgres', () => {
     });
   });
 
+  describe('delete', () => {
+    it('shold delete a row and return the count', async () => {
+      await commonTests.deleteARowReturnsTheNumberOfRecords(postgres);
+    });
+  });
+
   describe('knex-migrate', function () {
     it('should setup a database with knex-migrate', async function () {
       await migrateToLatest('test/integration/knexFiles/postgres.js');
