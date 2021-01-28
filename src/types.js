@@ -13,6 +13,9 @@ function applyRecord(columnMetadata, record) {
         case 'jsonb':
           parsedColumns[column.name] = JSON.parse(record[column.name]);
           break;
+        default:
+          // Skip
+          break;
       }
     }
   });
