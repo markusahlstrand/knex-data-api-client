@@ -80,6 +80,10 @@ describe('postgres', () => {
       await commonTests.queryForASingleJSONField(postgres);
     });
 
+    it('should query for a timestamp field', async () => {
+      await commonTests.queryForATimestampField(postgres);
+    });
+
     it('should query for a json array field', async () => {
       await commonTests.queryForAJSONArrayField(postgres);
     });

@@ -71,6 +71,25 @@ async function queryForASingleField(knex) {
   expect(rows[0].value).to.equal('test');
 }
 
+async function queryForATimestampField(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.timestamp('date');
+  });
+
+  const date = new Date();
+
+  await knex.table(tableName).insert({ date });
+
+  const rows = await knex.select('date').from(tableName);
+
+  expect(rows.length).to.equal(1);
+
+  expect(Object.prototype.toString.call(rows[0].date)).to.equal('[object Date]');
+}
+
 async function queryForASingleJSONField(knex) {
   const tableName = 'common_test_' + counter++;
 
@@ -335,6 +354,7 @@ module.exports = {
   queryForASingleField,
   queryForASingleJSONField,
   queryForASingleJSONBField,
+  queryForATimestampField,
   queryForAJSONArrayField,
   queryTwoTablesWithAnInnerJoin,
   returnAnErrorForInvalidInsert,

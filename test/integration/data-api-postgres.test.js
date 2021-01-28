@@ -70,6 +70,10 @@ describe('data-api-postgres', () => {
       await commonTests.returnEmptyArrayForQueryOnEmptyTable(postgres);
     });
 
+    it('should query for a timestamp field', async () => {
+      await commonTests.queryForATimestampField(postgres);
+    });
+
     it('should query for a single json field', async () => {
       await commonTests.queryForASingleJSONField(postgres);
     });
