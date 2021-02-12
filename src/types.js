@@ -8,6 +8,7 @@ function applyRecord(columnMetadata, record) {
         case 'timestamp':
         case 'timestamptz':
           // Postgres format 2001-01-01 00:00:00
+          // eslint-disable-next-line no-case-declarations
           const [, year, month, day, hour, minute, second] = record[column.name].match(
             /^(\d{1,4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/,
           );
