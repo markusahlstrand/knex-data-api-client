@@ -1,7 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-undef */
 
 const dataApiClient = require('data-api-client');
 const util = require('util');
@@ -129,12 +127,12 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
           const { records, columnMetadata } = obj.response;
 
           // Iterate through the data
-          for (let i = 0; i < columnMetadata.length; i++) {
+          for (let i = 0; i < columnMetadata.length; i += 1) {
             const { tableName } = columnMetadata[i];
             const { label } = columnMetadata[i];
 
             // Iterate through responses
-            for (let j = 0; j < records.length; j++) {
+            for (let j = 0; j < records.length; j += 1) {
               if (!res[j]) res[j] = {};
               if (!res[j][tableName]) res[j][tableName] = {};
               res[j][tableName][label] = records[j][label];
