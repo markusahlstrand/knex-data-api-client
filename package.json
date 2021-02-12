@@ -1,6 +1,6 @@
 {
   "name": "knex-aurora-data-api-client",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Knex Aurora Data API Client",
   "main": "index.js",
   "files": [
