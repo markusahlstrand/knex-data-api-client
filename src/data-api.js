@@ -142,6 +142,14 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
         }
       }
 
+      if (obj.method === 'first') {
+        // If no nested tables
+        if (!obj.options || !obj.options.nestTables) {
+          const [ response ] = types.apply(obj.response);
+          obj.response = response;
+        }
+      }
+
       // Format delete
       if (obj.method === 'del') {
         obj.response = obj.response.numberOfRecordsUpdated;

@@ -93,6 +93,16 @@ describe('postgres', () => {
     });
   });
 
+  describe('first', () => {
+    it('should query for a first field', async () => {
+      await commonTests.queryForFirst(postgres);
+    });
+
+    it('should return undefined for a first query that returns no results', async () => {
+      await commonTests.queryForFirstUndefined(postgres);
+    });
+  });
+
   describe('update', () => {
     it('should update a row', async () => {
       await commonTests.updateARow(postgres);

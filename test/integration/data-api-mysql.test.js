@@ -77,6 +77,16 @@ describe('data-api-mysql', () => {
     });
   });
 
+  describe('first', () => {
+    it('should query for a first field', async () => {
+      await commonTests.queryForFirst(mysql);
+    });
+
+    it('should return undefined for a first query that returns no results', async () => {
+      await commonTests.queryForFirstUndefined(mysql);
+    });
+  });
+
   describe('whereIn', () => {
     it('should fetch to rows', async () => {
       await commonTests.fetchToRowsUsingWhereIn(mysql);
