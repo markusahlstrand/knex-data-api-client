@@ -140,7 +140,7 @@ describe('data-api-mysql', () => {
 
   describe('knex-migrate', () => {
     // Seems to be some issue with a timestamp truncation
-    it.skip('should setup a database with knex-migrate', async () => {
+    it('should setup a database with knex-migrate', async () => {
       await migrateToLatest('test/integration/knexFiles/mysql.js');
     });
   });

@@ -9,7 +9,9 @@ function format(sql, bindings, dialect) {
           return binding;
         }
 
-        if (typeof binding === 'object') {
+        if (binding instanceof Date) {
+          return binding.toISOString().slice(0, 19).replace('T', ' ');
+        } else if (binding instanceof Object) {
           return JSON.stringify(binding);
         }
 
