@@ -71,6 +71,33 @@ async function queryForASingleField(knex) {
   expect(rows[0].value).to.equal('test');
 }
 
+async function queryForFirst(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  await knex.table(tableName).insert({ value: 'test' });
+
+  const row = await knex.first('value').from(tableName);
+  expect(row).to.be.an('object');
+  expect(row.value).to.equal('test');
+}
+
+async function queryForFirstUndefined(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  const row = await knex.first('value').from(tableName);
+  expect(row).to.be.an('undefined')
+}
+
 async function queryForATimestampField(knex) {
   const tableName = 'common_test_' + counter++;
 
@@ -353,6 +380,8 @@ module.exports = {
   insertRowWithTimestampAsNull,
   insertTwoRowsInTransaction,
   queryForASingleField,
+  queryForFirst,
+  queryForFirstUndefined,
   queryForASingleJSONField,
   queryForASingleJSONBField,
   queryForATimestampField,

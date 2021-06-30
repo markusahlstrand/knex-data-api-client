@@ -87,6 +87,16 @@ describe('data-api-postgres', () => {
     });
   });
 
+  describe('first', () => {
+    it('should query for a first field', async () => {
+      await commonTests.queryForFirst(postgres);
+    });
+
+    it('should return undefined for a first query that returns no results', async () => {
+      await commonTests.queryForFirstUndefined(postgres);
+    });
+  });
+
   describe('whereIn', () => {
     it('should fetch to rows', async () => {
       await commonTests.fetchToRowsUsingWhereIn(postgres);
