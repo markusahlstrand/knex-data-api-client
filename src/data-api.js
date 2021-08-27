@@ -75,8 +75,9 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
           })
           .catch((err) => {
             if (
-              err.message.startsWith('Database error code: 1064') ||
-              err.message.startsWith('Database error code: 1146')
+                (typeof err !== 'undefined' && typeof err.message === 'string')
+                && (err.message.startsWith('Database error code: 1064') ||
+              err.message.startsWith('Database error code: 1146'))
             ) {
               err.code = 'ER_NO_SUCH_TABLE';
             }
