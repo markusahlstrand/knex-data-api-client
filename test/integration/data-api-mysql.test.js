@@ -20,7 +20,7 @@ describe('data-api-mysql', () => {
     const tables = await mysql
       .select('table_name')
       .from('information_schema.tables')
-      .where({ TABLE_SCHEMA: 'Test' });
+      .where({ TABLE_SCHEMA: process.env.DB_NAME });
 
     const tableNames = tables.map((table) => table.table_name);
     await mysql.raw('SET FOREIGN_KEY_CHECKS = 0;');
