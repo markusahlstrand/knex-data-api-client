@@ -75,9 +75,10 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
           })
           .catch((err) => {
             if (
-                (typeof err !== 'undefined' && typeof err.message === 'string')
-                && (err.message.startsWith('Database error code: 1064') ||
-              err.message.startsWith('Database error code: 1146'))
+              typeof err !== 'undefined' &&
+              typeof err.message === 'string' &&
+              (err.message.startsWith('Database error code: 1064') ||
+                err.message.startsWith('Database error code: 1146'))
             ) {
               err.code = 'ER_NO_SUCH_TABLE';
             }
@@ -146,7 +147,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       if (obj.method === 'first') {
         // If no nested tables
         if (!obj.options || !obj.options.nestTables) {
-          const [ response ] = types.apply(obj.response);
+          const [response] = types.apply(obj.response);
           obj.response = response;
         }
       }
