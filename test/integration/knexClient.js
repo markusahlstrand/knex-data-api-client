@@ -1,8 +1,3 @@
-const AWS = require('aws-sdk');
-AWS.config.update({
-  credentials: new AWS.SharedIniFileCredentials({ profile: 'dev' }),
-});
-
 require('dotenv').config();
 
 const knexDataApiClient = require('../../');

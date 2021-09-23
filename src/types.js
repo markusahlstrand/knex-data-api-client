@@ -20,6 +20,9 @@ function applyRecord(columnMetadata, record) {
         case 'jsonb':
           parsedColumns[column.name] = JSON.parse(record[column.name]);
           break;
+        case '_text':
+          parsedColumns[column.name] = record[column.name].stringValues;
+          break;
         default:
           // Skip
           break;

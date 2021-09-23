@@ -95,7 +95,7 @@ async function queryForFirstUndefined(knex) {
   });
 
   const row = await knex.first('value').from(tableName);
-  expect(row).to.be.an('undefined')
+  expect(row).to.be.an('undefined');
 }
 
 async function queryForATimestampField(knex) {
@@ -369,6 +369,21 @@ async function returnEmptyArrayForQueryOnEmptyTable(knex) {
   expect(rows.length).to.equal(0);
 }
 
+async function insertTextArray(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.specificType('value', 'text ARRAY');
+  });
+
+  await knex.table(tableName).insert({ value: ['test'] });
+
+  const [row] = await knex.select().from(tableName);
+
+  expect(row.value).to.deep.equal(['test']);
+}
+
 module.exports = {
   createATestTable,
   deleteARowReturnsTheNumberOfRecords,
@@ -378,6 +393,7 @@ module.exports = {
   hasTableReturnsTrue,
   insertRowAndFetch,
   insertRowWithTimestampAsNull,
+  insertTextArray,
   insertTwoRowsInTransaction,
   queryForASingleField,
   queryForFirst,
