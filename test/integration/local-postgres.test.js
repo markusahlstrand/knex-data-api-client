@@ -51,6 +51,10 @@ describe('postgres', () => {
     it('should insert two rows in a transaction', async () => {
       await commonTests.insertTwoRowsInTransaction(postgres);
     });
+
+    it('should insert a text array value', async () => {
+      await commonTests.insertTextArray(postgres);
+    });
   });
 
   it('should insert a row and return an array of ids', async () => {

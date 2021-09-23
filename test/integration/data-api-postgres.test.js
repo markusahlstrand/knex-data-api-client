@@ -85,6 +85,10 @@ describe('data-api-postgres', () => {
     it('should query for a single jsonb field', async () => {
       await commonTests.queryForASingleJSONBField(postgres);
     });
+
+    it('should insert a text array value', async () => {
+      await commonTests.insertTextArray(postgres);
+    });
   });
 
   describe('first', () => {

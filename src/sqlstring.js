@@ -13,6 +13,10 @@ function format(sql, bindings, dialect) {
           return binding.toISOString().slice(0, 19).replace('T', ' ');
         }
 
+        if (binding instanceof Array) {
+          return `{${binding.join(',')}}`;
+        }
+
         if (binding instanceof Object) {
           return JSON.stringify(binding);
         }
