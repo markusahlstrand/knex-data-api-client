@@ -106,7 +106,7 @@ async function queryForATimestampField(knex) {
     table.timestamp('date');
   });
 
-  const date = new Date('2001-01-01');
+  const date = new Date('2021-10-06T07:13:40.917Z');
 
   await knex.table(tableName).insert({ date });
 
@@ -115,7 +115,7 @@ async function queryForATimestampField(knex) {
   expect(rows.length).to.equal(1);
 
   expect(Object.prototype.toString.call(rows[0].date)).to.equal('[object Date]');
-  expect(rows[0].date.toUTCString()).to.equal(date.toUTCString());
+  expect(rows[0].date.toISOString()).to.equal(date.toISOString());
 }
 
 async function queryForASingleJSONField(knex) {
