@@ -12,6 +12,7 @@ function applyRecord(columnMetadata, record) {
           const [, year, month, day, hour, minute, second, millisecond] = record[column.name].match(
             /^(\d{1,4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})(?:.(\d{1,3}))?(?:\d{1,3})?$/,
           );
+
           parsedColumns[column.name] = new Date(
             Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
           );

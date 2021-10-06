@@ -10,7 +10,7 @@ function format(sql, bindings, dialect) {
         }
 
         if (binding instanceof Date) {
-          return binding.toISOString().slice(0, 19).replace('T', ' ');
+          return binding.toISOString().slice(0, 23).replace('T', ' ');
         }
 
         if (binding instanceof Array) {
