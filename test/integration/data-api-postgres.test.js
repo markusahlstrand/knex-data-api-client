@@ -74,6 +74,10 @@ describe('data-api-postgres', () => {
       await commonTests.queryForATimestampField(postgres);
     });
 
+    it('should query for a timestamp field that truncates trailing zeros in milliseconds', async () => {
+      await commonTests.queryForATruncatedTimestampField(postgres);
+    });
+
     it('should query for a single json field', async () => {
       await commonTests.queryForASingleJSONField(postgres);
     });

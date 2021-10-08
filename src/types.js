@@ -14,7 +14,7 @@ function applyRecord(columnMetadata, record) {
           );
 
           parsedColumns[column.name] = new Date(
-            Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
+            Date.UTC(year, month - 1, day, hour, minute, second, millisecond.padEnd(3, 0)),
           );
           break;
         case 'json':

@@ -88,6 +88,10 @@ describe('postgres', () => {
       await commonTests.queryForATimestampField(postgres);
     });
 
+    it('should query for a timestamp field that truncates trailing zeros in milliseconds', async () => {
+      await commonTests.queryForATruncatedTimestampField(postgres);
+    });
+
     it('should query for a json array field', async () => {
       await commonTests.queryForAJSONArrayField(postgres);
     });
