@@ -13,8 +13,10 @@ function applyRecord(columnMetadata, record) {
             /^(\d{1,4})-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})(?:.(\d{1,3}))?(?:\d{1,3})?$/,
           );
 
+          // eslint-disable-next-line no-case-declarations
+          const millisecondPadded = millisecond === undefined ? '000' : millisecond.padEnd(3, 0);
           parsedColumns[column.name] = new Date(
-            Date.UTC(year, month - 1, day, hour, minute, second, millisecond.padEnd(3, 0)),
+            Date.UTC(year, month - 1, day, hour, minute, second, millisecondPadded),
           );
           break;
         case 'json':

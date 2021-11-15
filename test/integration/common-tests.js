@@ -139,6 +139,28 @@ async function queryForATruncatedTimestampField(knex) {
   expect(rows[0].date.toISOString()).to.equal(date.toISOString());
 }
 
+async function queryForATimestampFieldWithoutMillis(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.timestamp('date');
+  });
+
+  // It is saved correctly in DB, but SQL command select will retrieve as : 2021-10-07 12:56:16 
+  // This is the same as the above, but the milliseconds are missing entirely
+  const date = new Date('2021-10-07T12:56:16.000Z');
+
+  await knex.table(tableName).insert({ date });
+
+  const rows = await knex.select('date').from(tableName);
+
+  expect(rows.length).to.equal(1);
+
+  expect(Object.prototype.toString.call(rows[0].date)).to.equal('[object Date]');
+  expect(rows[0].date.toISOString()).to.equal(date.toISOString());
+}
+
 async function queryForASingleJSONField(knex) {
   const tableName = 'common_test_' + counter++;
 
