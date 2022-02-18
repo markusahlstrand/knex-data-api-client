@@ -78,6 +78,10 @@ describe('data-api-postgres', () => {
       await commonTests.queryForATruncatedTimestampField(postgres);
     });
 
+    it('should query for a timestamp field that has Infinity value', async () => {
+      await commonTests.queryForAInfinityTimestampField(postgres);
+    });
+
     it('should query for a single json field', async () => {
       await commonTests.queryForASingleJSONField(postgres);
     });

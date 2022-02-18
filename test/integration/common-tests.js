@@ -147,7 +147,7 @@ async function queryForATimestampFieldWithoutMillis(knex) {
     table.timestamp('date');
   });
 
-  // It is saved correctly in DB, but SQL command select will retrieve as : 2021-10-07 12:56:16 
+  // It is saved correctly in DB, but SQL command select will retrieve as : 2021-10-07 12:56:16
   // This is the same as the above, but the milliseconds are missing entirely
   const date = new Date('2021-10-07T12:56:16.000Z');
 
@@ -159,6 +159,32 @@ async function queryForATimestampFieldWithoutMillis(knex) {
 
   expect(Object.prototype.toString.call(rows[0].date)).to.equal('[object Date]');
   expect(rows[0].date.toISOString()).to.equal(date.toISOString());
+}
+
+/**
+ * Infinity values in timestamp field is only supported in PostgreSQL.
+ */
+async function queryForAInfinityTimestampField(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.timestamp('date');
+  });
+
+  await knex.table(tableName).insert({ date: Infinity });
+  await knex.table(tableName).insert({ date: -Infinity });
+  await knex.table(tableName).insert({ date: 'infinity' });
+  await knex.table(tableName).insert({ date: '-infinity' });
+
+  const rows = await knex.select('date').from(tableName);
+
+  expect(rows.length).to.equal(4);
+
+  expect(rows[0].date).to.equal(Infinity);
+  expect(rows[1].date).to.equal(-Infinity);
+  expect(rows[2].date).to.equal(Infinity);
+  expect(rows[3].date).to.equal(-Infinity);
 }
 
 async function queryForASingleJSONField(knex) {
@@ -445,6 +471,7 @@ module.exports = {
   queryForASingleJSONBField,
   queryForATimestampField,
   queryForATruncatedTimestampField,
+  queryForAInfinityTimestampField,
   queryForAJSONArrayField,
   queryTwoTablesWithAnInnerJoin,
   returnAnErrorForInvalidInsert,

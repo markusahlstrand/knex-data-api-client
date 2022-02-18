@@ -92,6 +92,10 @@ describe('postgres', () => {
       await commonTests.queryForATruncatedTimestampField(postgres);
     });
 
+    it('should query for a timestamp field that has Infinity value', async () => {
+      await commonTests.queryForAInfinityTimestampField(postgres);
+    });
+
     it('should query for a json array field', async () => {
       await commonTests.queryForAJSONArrayField(postgres);
     });
