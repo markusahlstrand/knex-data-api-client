@@ -13,6 +13,14 @@ function format(sql, bindings, dialect) {
           return binding.toISOString().slice(0, 23).replace('T', ' ');
         }
 
+        if (binding === Infinity) {
+          return 'infinity';
+        }
+
+        if (binding === -Infinity) {
+          return '-infinity';
+        }
+
         if (binding instanceof Array) {
           return `{${binding.join(',')}}`;
         }
