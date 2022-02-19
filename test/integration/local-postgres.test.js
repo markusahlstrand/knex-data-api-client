@@ -55,20 +55,10 @@ describe('postgres', () => {
     it('should insert a text array value', async () => {
       await commonTests.insertTextArray(postgres);
     });
-  });
 
-  it('should insert a row and return an array of ids', async () => {
-    const tableName = 'test-' + counter++;
-
-    await postgres.schema.createTable(tableName, (table) => {
-      table.increments();
-      table.string('value');
+    it('should insert a row and return an array of rows', async () => {
+      await commonTests.insertRowAndReturnAnArrayOfRows(postgres);
     });
-
-    const rows = await postgres.table(tableName).insert({ value: 'test' }).returning('id');
-
-    expect(rows.length).to.equal(1);
-    expect(rows[0]).to.equal(1);
   });
 
   describe('select', () => {

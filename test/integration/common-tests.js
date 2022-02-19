@@ -48,7 +48,7 @@ async function createATestTable(knex) {
   });
 
   const rows = await knex
-    .select('table_name')
+    .select('*')
     .from('information_schema.tables')
     .where({ table_name: tableName });
 
@@ -346,6 +346,20 @@ async function insertRowAndFetch(knex) {
   expect(rows.length).to.equal(1);
 }
 
+async function insertRowAndReturnAnArrayOfRows(knex) {
+  const tableName = 'test-' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.string('value');
+  });
+
+  const rows = await knex.table(tableName).insert({ value: 'test' }).returning('id');
+
+  expect(rows.length).to.equal(1);
+  expect(rows[0]).to.deep.equal({ id: 1 });
+}
+
 async function insertRowWithTimestampAsNull(knex) {
   const tableName = 'common_test_' + counter++;
 
@@ -461,6 +475,7 @@ module.exports = {
   hasTableReturnsFalse,
   hasTableReturnsTrue,
   insertRowAndFetch,
+  insertRowAndReturnAnArrayOfRows,
   insertRowWithTimestampAsNull,
   insertTextArray,
   insertTwoRowsInTransaction,

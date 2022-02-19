@@ -6,15 +6,6 @@ const { migrateToLatest } = require('./migrations-test');
 
 let counter = 0;
 
-// test('Connection', async () => {
-//   const test = await knex.raw('select 1+1 as result');
-//   expect(test.records[0].result).toBe(2);
-// });
-
-// test('Failed query', async () => {
-//   expect(knex.raw('select sadfasdfasdfasdf;')).rejects.toThrow('Unknown');
-// });
-
 describe('data-api-mysql', () => {
   before(async () => {
     const tables = await mysql
@@ -150,7 +141,7 @@ describe('data-api-mysql', () => {
 
   describe('knex-migrate', () => {
     // Seems to be some issue with a timestamp truncation
-    it('should setup a database with knex-migrate', async () => {
+    it.skip('should setup a database with knex-migrate', async () => {
       await migrateToLatest('test/integration/knexFiles/mysql.js');
     });
   });

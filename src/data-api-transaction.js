@@ -2,14 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable global-require */
 
-let Transaction;
-
-try {
-  Transaction = require('knex/lib/transaction');
-} catch (err) {
-  // eslint-disable-next-line import/no-unresolved
-  Transaction = require('knex/lib/execution/transaction');
-}
+const Transaction = require('knex/lib/execution/transaction');
 
 module.exports = class DataAPITransaction extends Transaction {
   // eslint-disable-next-line class-methods-use-this
