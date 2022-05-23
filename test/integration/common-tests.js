@@ -346,6 +346,21 @@ async function insertRowAndFetch(knex) {
   expect(rows.length).to.equal(1);
 }
 
+async function insertRowWithJsonbAndReturnAnArrayOfRows(knex) {
+  const tableName = 'test-' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.jsonb('payload');
+  });
+
+  const payload = { name: 'moi', location: 'sydney' };
+  const rows = await knex.table(tableName).insert({ payload }).returning('*');
+
+  expect(rows.length).to.equal(1);
+  expect(rows[0]).to.deep.equal({ id: 1, payload });
+}
+
 async function insertRowAndReturnAnArrayOfRows(knex) {
   const tableName = 'test-' + counter++;
 
@@ -476,6 +491,7 @@ module.exports = {
   hasTableReturnsTrue,
   insertRowAndFetch,
   insertRowAndReturnAnArrayOfRows,
+  insertRowWithJsonbAndReturnAnArrayOfRows,
   insertRowWithTimestampAsNull,
   insertTextArray,
   insertTwoRowsInTransaction,

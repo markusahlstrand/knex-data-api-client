@@ -42,6 +42,10 @@ describe('data-api-postgres', () => {
       await commonTests.insertRowAndFetch(postgres);
     });
 
+    it('should insert a row with jsonb and fetch the result with types applied', async () => {
+      await commonTests.insertRowWithJsonbAndReturnAnArrayOfRows(postgres);
+    });
+
     it('should insert a row with timestamp as null', async () => {
       await commonTests.insertRowWithTimestampAsNull(postgres);
     });
