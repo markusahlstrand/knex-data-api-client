@@ -108,8 +108,11 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       if (obj.method === 'insert') {
         if (dialect === 'mysql') {
           obj.response = [obj.response.insertId];
-        } else {
-          obj.response = obj.response.records;
+        } else if (Array.isArray(obj.response.records)) {
+          obj.response = obj.response.records.map((record) =>
+            // If the record contains a single field return it as a scalar
+            Object.keys(record).length === 1 ? Object.values(record)[0] : record,
+          );
         }
       }
 
@@ -132,8 +135,14 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
             // Iterate through responses
             for (let j = 0; j < records.length; j += 1) {
-              if (!res[j]) res[j] = {};
-              if (!res[j][tableName]) res[j][tableName] = {};
+              if (!res[j]) {
+                res[j] = {};
+              }
+
+              if (!res[j][tableName]) {
+                res[j][tableName] = {};
+              }
+
               res[j][tableName][label] = records[j][label];
             }
           }

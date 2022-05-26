@@ -357,7 +357,7 @@ async function insertRowAndReturnAnArrayOfRows(knex) {
   const rows = await knex.table(tableName).insert({ value: 'test' }).returning('id');
 
   expect(rows.length).to.equal(1);
-  expect(rows[0]).to.deep.equal({ id: 1 });
+  expect(rows[0]).to.equal(1);
 }
 
 async function insertRowWithTimestampAsNull(knex) {
