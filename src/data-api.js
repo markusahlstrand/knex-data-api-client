@@ -109,10 +109,7 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
         if (dialect === 'mysql') {
           obj.response = [obj.response.insertId];
         } else if (Array.isArray(obj.response.records)) {
-          obj.response = obj.response.records.map((record) =>
-            // If the record contains a single field return it as a scalar
-            Object.keys(record).length === 1 ? Object.values(record)[0] : record,
-          );
+          obj.response = obj.response.records;
         }
       }
 
