@@ -108,7 +108,9 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       if (obj.method === 'insert') {
         if (dialect === 'mysql') {
           obj.response = [obj.response.insertId];
-        } else if (Array.isArray(obj.response.records)) {
+        } else if (obj.returning) {
+          obj.response = types.apply(obj.response);
+        } else {
           obj.response = obj.response.records;
         }
       }
