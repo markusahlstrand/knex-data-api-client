@@ -134,8 +134,14 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
 
             // Iterate through responses
             for (let j = 0; j < records.length; j += 1) {
-              if (!res[j]) res[j] = {};
-              if (!res[j][tableName]) res[j][tableName] = {};
+              if (!res[j]) {
+                res[j] = {};
+              }
+
+              if (!res[j][tableName]) {
+                res[j][tableName] = {};
+              }
+
               res[j][tableName][label] = records[j][label];
             }
           }
