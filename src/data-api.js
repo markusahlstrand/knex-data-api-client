@@ -166,6 +166,8 @@ function dataAPI(ClientRDSDataAPI, Client, dialect) {
       if (obj.method === 'update') {
         if (dialect === 'mysql') {
           obj.response = obj.response.numberOfRecordsUpdated;
+        } else if (obj.returning) {
+          obj.response = types.apply(obj.response);
         } else {
           obj.response = obj.response.records || obj.response.numberOfRecordsUpdated;
         }
