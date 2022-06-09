@@ -117,6 +117,10 @@ describe('postgres', () => {
     it('should update a row and return the results', async () => {
       await commonTests.updateARowReturning(postgres);
     });
+
+    it('should update a row with jsonb and return the results with types applied', async () => {
+      await commonTests.updateRowWithJsonbReturning(postgres);
+    })
   });
 
   describe('whereIn', () => {

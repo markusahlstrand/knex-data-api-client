@@ -455,6 +455,25 @@ async function updateARowReturning(knex) {
   expect(rows[0].value).to.equal('update');
 }
 
+async function updateRowWithJsonbReturning(knex) {
+  const tableName = 'common_test_' + counter++;
+
+  await knex.schema.createTable(tableName, (table) => {
+    table.increments();
+    table.jsonb('value');
+  });
+
+  await knex.table(tableName).insert({ value: { test : 'one' } });
+
+  const rows = await knex(tableName)
+    .update({ value: { test: 'update' } })
+    .returning('*');
+
+  expect(rows.length).to.equal(1);
+  expect(typeof rows[0].value).to.equal('object');
+  expect(rows[0].value).to.deep.equal({ test: 'update' });
+}
+
 async function returnEmptyArrayForQueryOnEmptyTable(knex) {
   const tableName = 'common_test-' + counter++;
 
@@ -510,4 +529,5 @@ module.exports = {
   returnEmptyArrayForQueryOnEmptyTable,
   updateARow,
   updateARowReturning,
+  updateRowWithJsonbReturning,
 };
