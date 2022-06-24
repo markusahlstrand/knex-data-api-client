@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { expect } = require('chai');
 
 const commonTests = require('./common-tests');
@@ -5,7 +7,7 @@ const { migrateToLatest } = require('./migrations-test');
 
 const postgres = require('knex')({
   client: 'pg',
-  connection: 'postgres://localhost',
+  connection: process.env.LOCAL_POSTGRES_CONNECTION || 'postgres://localhost',
 });
 
 let counter = 0;
@@ -117,6 +119,10 @@ describe('postgres', () => {
     it('should update a row and return the results', async () => {
       await commonTests.updateARowReturning(postgres);
     });
+
+    it('should update a row with jsonb and return the results with types applied', async () => {
+      await commonTests.updateRowWithJsonbReturning(postgres);
+    })
   });
 
   describe('whereIn', () => {

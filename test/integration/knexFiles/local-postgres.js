@@ -1,4 +1,6 @@
+require('dotenv').config();
+
 module.exports = {
   client: 'pg',
-  connection: 'postgres://localhost',
+  connection: process.env.LOCAL_POSTGRES_CONNECTION || 'postgres://localhost',
 };
