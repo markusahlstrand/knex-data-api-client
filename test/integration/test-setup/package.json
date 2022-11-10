@@ -12,18 +12,18 @@
     "destroy": "cdk destroy '*' --profile dev"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.119.0",
+    "@aws-cdk/assert": "1.180.0",
     "@types/jest": "27.0.1",
     "aws-cdk": "1.119.0",
     "jest": "27.0.6"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigateway": "1.119.0",
-    "@aws-cdk/aws-certificatemanager": "1.119.0",
-    "@aws-cdk/aws-ec2": "1.119.0",
-    "@aws-cdk/aws-iam": "1.119.0",
-    "@aws-cdk/aws-rds": "1.119.0",
-    "@aws-cdk/aws-secretsmanager": "1.119.0",
-    "@aws-cdk/core": "1.119.0"
+    "@aws-cdk/aws-apigateway": "1.180.0",
+    "@aws-cdk/aws-certificatemanager": "1.180.0",
+    "@aws-cdk/aws-ec2": "1.180.0",
+    "@aws-cdk/aws-iam": "1.180.0",
+    "@aws-cdk/aws-rds": "1.180.0",
+    "@aws-cdk/aws-secretsmanager": "1.180.0",
+    "@aws-cdk/core": "1.180.0"
   }
 }
