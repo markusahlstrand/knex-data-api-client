@@ -52,13 +52,13 @@ module.exports = class DataAPITransaction extends Transaction {
           });
   
           resolve();
-        } catch (err) {
-          reject(err);
+        } catch (rollBackErr) {
+          reject(rollBackErr);
         }
       }), 5000)
       .catch((e) => {
         if (!(e instanceof KnexTimeoutError)) {
-          return Promise.reject(e);
+          throw e;
         }
         this._rejecter(e);
       })
@@ -73,5 +73,7 @@ module.exports = class DataAPITransaction extends Transaction {
         this._rejecter(err);
       })      
     }
+
+    return Promise.resolve();
   }
 };
