@@ -1,16 +1,13 @@
 require('dotenv').config();
-
-const { expect } = require('chai');
-
-const commonTests = require('./common-tests');
-const { migrateToLatest } = require('./migrations-test');
+const { describe, it, before } = require('mocha');
 
 const postgres = require('knex')({
   client: 'pg',
   connection: process.env.LOCAL_POSTGRES_CONNECTION || 'postgres://localhost',
 });
 
-let counter = 0;
+const commonTests = require('./common-tests');
+const { migrateToLatest } = require('./migrations-test');
 
 describe('postgres', () => {
   before(async () => {
@@ -22,16 +19,18 @@ describe('postgres', () => {
 
     const tableNames = tables.map((table) => table.table_name);
 
-    for (let i = 0; i < tableNames.length; i++) {
+    for (let i = 0; i < tableNames.length; i += 1) {
       const tableName = tableNames[i];
+      // eslint-disable-next-line no-console
       console.log(`Drop table ${tableName}`);
+      // eslint-disable-next-line no-await-in-loop
       await postgres.raw(`DROP TABLE "${tableName}" CASCADE`);
     }
   });
 
-  after((done) => {
-    postgres.destroy(done);
-  });
+  // after((done) => {
+  //   postgres.destroy(done);
+  // });
 
   it('should create a test table', async () => {
     await commonTests.createATestTable(postgres);
@@ -122,7 +121,7 @@ describe('postgres', () => {
 
     it('should update a row with jsonb and return the results with types applied', async () => {
       await commonTests.updateRowWithJsonbReturning(postgres);
-    })
+    });
   });
 
   describe('whereIn', () => {
