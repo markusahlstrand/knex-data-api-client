@@ -1,7 +1,7 @@
 const knexClientFactory = require('knex');
 
 function format(sql, bindings, dialect) {
-  const knexClient = knexClientFactory({ client: dialect });
+  const knexClient = knexClientFactory({ client: require(`knex/lib/dialects/${dialect}`) });
 
   const stringBindings = bindings
     ? bindings.map((binding) => {
