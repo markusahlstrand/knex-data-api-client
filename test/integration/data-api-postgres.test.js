@@ -1,10 +1,8 @@
-const { expect } = require('chai');
+const { describe, it, before } = require('mocha');
 
 const { postgres } = require('./knexClient');
 const commonTests = require('./common-tests');
 const { migrateToLatest } = require('./migrations-test');
-
-let counter = 0;
 
 // test('Connection', async () => {
 //   const test = await knex.raw('select 1+1 as result');
@@ -13,6 +11,7 @@ let counter = 0;
 
 describe('data-api-postgres', () => {
   before(async () => {
+    // eslint-disable-next-line no-console
     console.log('Before');
 
     const tables = await postgres
@@ -22,9 +21,11 @@ describe('data-api-postgres', () => {
 
     const tableNames = tables.map((table) => table.table_name);
 
-    for (let i = 0; i < tableNames.length; i++) {
+    for (let i = 0; i < tableNames.length; i += 1) {
       const tableName = tableNames[tableNames.length - i - 1];
+      // eslint-disable-next-line no-console
       console.log(`Drop table ${tableName}`);
+      // eslint-disable-next-line no-await-in-loop
       await postgres.raw(`DROP TABLE "${tableName}" CASCADE`);
     }
   });
@@ -66,7 +67,7 @@ describe('data-api-postgres', () => {
 
     it('should update a row with jsonb and return the results with types applied', async () => {
       await commonTests.updateRowWithJsonbReturning(postgres);
-    })
+    });
   });
 
   describe('select', () => {
@@ -163,8 +164,8 @@ describe('data-api-postgres', () => {
     });
   });
 
-  describe('knex-migrate', function () {
-    it('should setup a database with knex-migrate', async function () {
+  describe('knex-migrate', () => {
+    it('should setup a database with knex-migrate', async () => {
       await migrateToLatest('test/integration/knexFiles/postgres.js');
     });
   });

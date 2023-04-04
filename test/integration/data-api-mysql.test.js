@@ -1,4 +1,5 @@
 const { expect } = require('chai');
+const { describe, it, before } = require('mocha');
 
 const { mysql } = require('./knexClient');
 const commonTests = require('./common-tests');
@@ -16,9 +17,11 @@ describe('data-api-mysql', () => {
     const tableNames = tables.map((table) => table.table_name);
     await mysql.raw('SET FOREIGN_KEY_CHECKS = 0;');
 
-    for (let i = 0; i < tableNames.length; i++) {
+    for (let i = 0; i < tableNames.length; i += 1) {
       const tableName = tableNames[i];
+      // eslint-disable-next-line no-console
       console.log(`Drop table ${tableName}`);
+      // eslint-disable-next-line no-await-in-loop
       await mysql.schema.dropTable(tableName);
     }
 
@@ -31,7 +34,8 @@ describe('data-api-mysql', () => {
 
   describe('insert', () => {
     it('should insert a row', async () => {
-      const tableName = 'test-' + counter++;
+      const tableName = `test_${counter}`;
+      counter += 1;
 
       await mysql.schema.createTable(tableName, (table) => {
         table.increments();
@@ -92,34 +96,29 @@ describe('data-api-mysql', () => {
 
   describe('errors', () => {
     it('should return an error for a invalid insert', async () => {
-      const tableName = 'test_' + counter++;
+      const tableName = `test_${counter}`;
+      counter += 1;
 
       await mysql.schema.createTable(tableName, (table) => {
         table.increments();
         table.string('value');
       });
 
-      let _err;
-
       try {
         await mysql.table(tableName).insert({ non_existing_colun: 'test' }).returning('*');
+        throw new Error('Should throw an error');
       } catch (err) {
-        _err = err;
+        expect(err.message).to.contain('Unknown column');
       }
-
-      expect(_err.message).to.contain('Unknown column');
     });
 
     it('should return an error for a invalid select', async () => {
-      let _err;
-
       try {
         await mysql.raw('select sadfasdfasdfasdf;');
+        throw new Error('Should throw an error');
       } catch (err) {
-        _err = err;
+        expect(err.message).to.contain('Unknown column');
       }
-
-      expect(_err.message).to.contain('Unknown column');
     });
   });
 
